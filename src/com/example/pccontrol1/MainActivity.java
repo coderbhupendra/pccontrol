@@ -370,7 +370,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		    	               descriptions[j]=name;
 		    	               images[j]=R.drawable.folder2;
 		    	               
-		    	               searchvector.add(j,String.valueOf(vector.elementAt(i)));
+		    	            //   searchvector.add(j,String.valueOf(vector.elementAt(i)));
 		    	               j++;
 		    	               }
 		    	                

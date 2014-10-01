@@ -267,7 +267,14 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	
 	private void displaysearchlist() {
 		// TODO Auto-generated method stub
-		display();
+		 list=(ListView)findViewById(R.id.listView1);
+		 adapter =new VivzAdapter(this,titles,descriptions,images); 
+		 list.setAdapter(adapter);
+		 adapter.notifyDataSetChanged();
+		 
+		list.setOnItemClickListener( this);
+		list.setOnItemLongClickListener(this);
+		list.setOnItemSelectedListener(this);
 	}
 
 //getters ans setters

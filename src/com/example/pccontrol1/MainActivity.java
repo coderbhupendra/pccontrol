@@ -517,7 +517,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	        	int getsize=vectorBack.size();int s=0;
 	        	if(getsize==1)s=1;
 	        	else s=2;
-	        	
+	        	  
 	        	streamToServer.println(vectorBack.elementAt(vectorBack.size()-s));
 	        	//now remove the last position from backvector
 	        	

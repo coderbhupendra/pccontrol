@@ -183,14 +183,24 @@ public class FavList extends Activity implements AdapterView.OnItemClickListener
 	  String Fav=String.valueOf(vectorFav.elementAt(i));
 		vectorFav.remove(i);
 		 
-		MainActivity m =new MainActivity();
-		//CommentsDataSource datasource=	m.datasource;
-	 //long comment =  adapter.getItemId(i);
-	   //     datasource.deleteComment(comment);
-		MySQLiteHelper del=m.help;
-		del.deleteToDo(Fav);
-		//pass this vector to mainactivity
+		
+		//CommentsDataSource datasource=MainActivity.datasource;
+	   
+		
+		
+		//MySQLiteHelper del= MainActivity.help;
+		
+		TextView textView=(TextView) view.findViewById(R.id.textView1);
+		String tt=textView.getText().toString();
+		Toast.makeText(getApplicationContext(), tt, Toast.LENGTH_LONG).show();
+		int num=Integer.parseInt(tt);num--;
+		
+		//datasource.deleteComment(num-1);
+		//del.deleteToDo(num);
+		
+		//pass this vecmtor to mainactivity
 		MainActivity MA=new MainActivity();
+		MA.delFavVector(Fav);
 		MA.setFavVector(vectorFav);
 		try {
 			send();

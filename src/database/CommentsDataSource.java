@@ -3,13 +3,12 @@ package database;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.Comment;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class CommentsDataSource {
 
@@ -36,6 +35,7 @@ public class CommentsDataSource {
     values.put(MySQLiteHelper.COLUMN_COMMENT, comment);
     long insertId = database.insert(MySQLiteHelper.TABLE_COMMENTS, null,
         values);
+  Log.d("test comment add",insertId+" ");
     Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
         allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
         null, null, null);
@@ -45,11 +45,11 @@ public class CommentsDataSource {
     return newComment;
   }
 
-  public void deleteComment(long id) {
-   // long id = comment.getId();
-    System.out.println("Comment deleted with id: " + id);
-    database.delete(MySQLiteHelper.TABLE_COMMENTS, MySQLiteHelper.COLUMN_ID
-        + " = " + id, null);
+  public void deleteComment(String comm) {
+  //  long id = comment.getId();
+    System.out.println("Comment deleted with id: " + comm);
+    database.delete(MySQLiteHelper.TABLE_COMMENTS, MySQLiteHelper.COLUMN_COMMENT
+        + " = " + comm, null);
   }
 
   public List<Comment> getAllComments() {
@@ -59,6 +59,7 @@ public class CommentsDataSource {
         allColumns, null, null, null, null, null);
 
     cursor.moveToFirst();
+    cursor.getCount();
     while (!cursor.isAfterLast()) {
       Comment comment = cursorToComment(cursor);
       comments.add(comment);

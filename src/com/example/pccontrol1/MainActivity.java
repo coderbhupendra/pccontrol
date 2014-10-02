@@ -6,8 +6,12 @@ import database.CommentsDataSource;
 import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.PrintStream;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Vector;
 
@@ -19,6 +23,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -54,7 +59,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	
 	
 
-	static Vector<String> vector;
+	static Vector<String> vector,searchvector;
 	static Vector vectorBack = new Vector();
 	static Vector vectorFav = new Vector();
 
@@ -62,8 +67,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	VivzAdapter adapter;
     static	String fi;
     
-	public CommentsDataSource datasource;
-	public MySQLiteHelper help;
+	public static CommentsDataSource datasource;
+	public static MySQLiteHelper help;
 	int Scheck=0;
 	
 	@SuppressLint("NewApi")
@@ -79,16 +84,20 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		//searchbutton=(Button) findViewById(R.id.button6);
         
        
-        
-		try {
-			send();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        Typeface custom_font = Typeface.createFromAsset(getAssets(),
+        	      "fonts/timeburner_regular.ttf");
+        	      header.setTypeface(custom_font);
+        	      searchword.setTypeface(custom_font,Typeface.BOLD_ITALIC);
 		
-		
-
+		   
+			try {
+				send();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 		//database
 	
 		datasource = new CommentsDataSource(this);
@@ -189,6 +198,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	//}
 	public void CDrive(View v) throws Exception {
 		choice=1;
+		//help.deleteToDo(1);
 		send();
 	}
 public void EDrive(View v) throws Exception {
@@ -288,6 +298,12 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		vectorFav=vec;
 	}
 	
+	public void delFavVector(String del) {
+		help.deleteToDo(del);
+		 Log.d("test del",del+1+" ");
+		 
+	}
+	
 	public void send() throws Exception {
 	    	new LongOperation().execute();
 	    	
@@ -354,7 +370,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		                head =headpath.substring(0 , pos1);
 		                
 		    		 //on create activity this code will run
-		              
+		               j=0;
 		                	for(int i=0;i<size;i++){
 		    	      			
 		    	      			
@@ -369,6 +385,10 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		    	               {titles[j]=String.valueOf(i+1);
 		    	               descriptions[j]=name;
 		    	               images[j]=R.drawable.folder2;
+		    	               
+		    	               //  searchvector.add(String.valueOf(vector.elementAt(i)));
+		    	             //  searchvector.
+		    	               j++;
 		    	               Scheck=1;
 		    	               }
 		    	                
@@ -378,7 +398,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		    	      	       
 		    	      		}
 		               
-		                	        
+		                	// if(search!=" ")vector=searchvector;
+		    	               
 
 		        	}//end of try
 		        	catch(Exception e)
@@ -613,7 +634,10 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		else 
 		Fav=String.valueOf(vector.elementAt(i));
 		vectorFav.add(Fav);
+	//	Comment comment = datasource.createComment(Fav,vectorFav.size()+1);
+		Log.d("test size",vectorFav.size()+" ");
 		Comment comment = datasource.createComment(Fav);
+		
 		return false;
 	}
  
@@ -728,10 +752,17 @@ int[] images;
 	{ImageView myimages;
 	TextView myTitle;
 	TextView myDescription;
+	
+	
 		MyViewHolder(View v){
 		 myimages=(ImageView)v.findViewById(R.id.imageView1);
 	 myTitle=(TextView) v.findViewById(R.id.textView1);
 	 myDescription=(TextView) v.findViewById(R.id.textView2);
+	
+	 Typeface custom_font = Typeface.createFromAsset(context.getAssets(),
+   	      "fonts/timeburner_regular.ttf");
+   	      myDescription.setTypeface(custom_font, Typeface.BOLD_ITALIC);
+   	    
 	
 		}	
 	}

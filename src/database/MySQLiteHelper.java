@@ -18,7 +18,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
   public static final String COLUMN_COMMENT = "comment";
 
   private static final String DATABASE_NAME = "commments.db";
-  private static final int DATABASE_VERSION = 3;
+  private static final int DATABASE_VERSION = 17;
 
   // Database creation sql statement
   private static final String DATABASE_CREATE = "create table "
@@ -26,12 +26,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
       + " integer primary key autoincrement, " + COLUMN_COMMENT
       + " text not null);";
 
+  
   public MySQLiteHelper(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
   }
 
   @Override
   public void onCreate(SQLiteDatabase database) {
+	  
     database.execSQL(DATABASE_CREATE);
   }
 
@@ -65,10 +67,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		return todos;
 	}
 
-  public void deleteToDo(String Comment) {
+  public void deleteToDo(String comm) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_COMMENTS, COLUMN_COMMENT + " = ?",
-				new String[] { Comment });
+				new String[] { String.valueOf(comm) });
 		
 	}
   

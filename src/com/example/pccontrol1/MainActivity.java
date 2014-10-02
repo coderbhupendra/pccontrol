@@ -607,7 +607,14 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		// TODO Auto-generated method stub
 		//Toast.makeText(this, "longclick", Toast.LENGTH_LONG).show();
 		String Fav;
-		if(Scheck==1){Fav=String.valueOf(searchvector.elementAt(i));  Scheck=0;}
+	
+		
+		if(Scheck==1){
+			TextView textView=(TextView) view.findViewById(R.id.textView1);
+			String tt=textView.getText().toString();
+			Toast.makeText(getApplicationContext(), tt, Toast.LENGTH_LONG).show();
+			int num=Integer.parseInt(tt);num--;
+			Fav=String.valueOf(vector.elementAt(num));  Scheck=0;}
 		else 
 		Fav=String.valueOf(vector.elementAt(i));
 		vectorFav.add(Fav);

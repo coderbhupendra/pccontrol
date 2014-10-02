@@ -364,14 +364,16 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		    	                 String name =path.substring(pos+1 , path.length());
 		    	                 if(search!=" ")
 		    	                 {
-		    	                	 Scheck=1;
+		    	                	
 		    	                if(name.contains(search)||name.contains(newletter))
 		    	               {titles[j]=String.valueOf(i+1);
 		    	               descriptions[j]=name;
 		    	               images[j]=R.drawable.folder2;
 		    	               
-		    	            //     searchvector.add(j,String.valueOf(vector.elementAt(i)));
+		    	               //  searchvector.add(String.valueOf(vector.elementAt(i)));
+		    	             //  searchvector.
 		    	               j++;
+		    	               Scheck=1;
 		    	               }
 		    	                
 		    	                }

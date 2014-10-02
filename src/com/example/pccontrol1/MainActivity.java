@@ -54,7 +54,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	
 	
 
-	static Vector<String> vector,searchvector;
+	static Vector<String> vector;
 	static Vector vectorBack = new Vector();
 	static Vector vectorFav = new Vector();
 
@@ -354,7 +354,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		                head =headpath.substring(0 , pos1);
 		                
 		    		 //on create activity this code will run
-		               j=0;
+		              
 		                	for(int i=0;i<size;i++){
 		    	      			
 		    	      			
@@ -369,10 +369,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		    	               {titles[j]=String.valueOf(i+1);
 		    	               descriptions[j]=name;
 		    	               images[j]=R.drawable.folder2;
-		    	               
-		    	               //  searchvector.add(String.valueOf(vector.elementAt(i)));
-		    	             //  searchvector.
-		    	               j++;
 		    	               Scheck=1;
 		    	               }
 		    	                
@@ -382,8 +378,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		    	      	       
 		    	      		}
 		               
-		                	// if(search!=" ")vector=searchvector;
-		    	               
+		                	        
 
 		        	}//end of try
 		        	catch(Exception e)

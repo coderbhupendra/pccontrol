@@ -192,7 +192,12 @@ public class FavList extends Activity implements AdapterView.OnItemClickListener
 		
 		TextView textView=(TextView) view.findViewById(R.id.textView1);
 		String tt=textView.getText().toString();
-		Toast.makeText(getApplicationContext(), tt, Toast.LENGTH_LONG).show();
+		
+		String path = String.valueOf(Fav);
+        int pos = path.lastIndexOf("\\");
+        String name =path.substring(pos+1 , path.length());
+	        
+		Toast.makeText(getApplicationContext(),name+ " Removed From List", Toast.LENGTH_LONG).show();
 		int num=Integer.parseInt(tt);num--;
 		
 		//datasource.deleteComment(num-1);

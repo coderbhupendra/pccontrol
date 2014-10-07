@@ -3,10 +3,10 @@ package com.example.pccontrol1;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import android.os.Bundle;
-import android.view.Window;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.view.Window;
 
 /*
  * This is our first activity.
@@ -31,7 +31,7 @@ public class SplashScreenActivity extends Activity {
 
 				// go to the main activity
 				Intent nextActivity = new Intent(SplashScreenActivity.this,
-						MainActivity.class);
+						IPEntry.class);
 				startActivity(nextActivity);
 
 				// make sure splash screen activity is gone
@@ -43,7 +43,7 @@ public class SplashScreenActivity extends Activity {
 
 		// Schedule a task for single execution after a specified delay.
 		// Show splash screen for 4 seconds
-		new Timer().schedule(task, 4000);
+		new Timer().schedule(task, 2000);
 
 	}
 

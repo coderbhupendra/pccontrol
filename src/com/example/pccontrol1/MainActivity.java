@@ -6,23 +6,20 @@ import database.CommentsDataSource;
 import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.PrintStream;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.Socket;
-import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Vector;
 
-import android.app.ActionBar.OnNavigationListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
+
+import android.app.ActionBar.OnNavigationListener;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -57,8 +54,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	static String search=" ";
 	
 	
-	
-
+	String IPADDRESS="192.168.43.19";
+	SharedPreferences sharedpreferences;
+	public static final String MyPREFERENCES = "MyPrefs" ;
+	   public static final String Name = "nameKey"; 
+	   public static final String IP = "IPKey"; 
+	   
 	static Vector<String> vector,searchvector;
 	static Vector vectorBack = new Vector();
 	static Vector vectorFav = new Vector();
@@ -70,6 +71,13 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	public static CommentsDataSource datasource;
 	public static MySQLiteHelper help;
 	int Scheck=0;
+	
+	/** An array of strings to populate dropdown list */
+    String[] actions = new String[] {
+        "Settings",
+        "IP Setting",
+        "Help"
+    };
 	
 	@SuppressLint("NewApi")
 	@Override
@@ -83,19 +91,53 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         searchword=(EditText) findViewById(R.id.editText1);
 		//searchbutton=(Button) findViewById(R.id.button6);
         
-       
+        
+       IPEntry ipe=new IPEntry();
+       IPADDRESS=ipe.ip;
+       ////////dropdown action bar
+        /** Create an array adapter to populate dropdownlist */
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_dropdown_item, actions);
+ 
+        /** Enabling dropdown list navigation for the action bar */
+        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+ 
+        /** Defining Navigation listener */
+        ActionBar.OnNavigationListener navigationListener = new OnNavigationListener() {
+ 
+            @Override
+            public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+               // Toast.makeText(getBaseContext(), "You selected : " + actions[itemPosition] +itemPosition , Toast.LENGTH_SHORT).show();
+                switch(itemPosition)
+                {
+                case 1: Intent IPActivity = new Intent(MainActivity.this,IPEntry.class);
+				startActivity(IPActivity);
+				break;
+                
+                };
+                return false;
+            }
+        };
+ 
+        /** Setting dropdown items and item navigation listener for the actionbar */
+        getActionBar().setListNavigationCallbacks(adapter, navigationListener);
+        
+        //////////////////////////////////////
+        
+        
         Typeface custom_font = Typeface.createFromAsset(getAssets(),
         	      "fonts/timeburner_regular.ttf");
         	      header.setTypeface(custom_font);
         	      searchword.setTypeface(custom_font,Typeface.BOLD_ITALIC);
 		
-		   
-			try {
-				send();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        	      try {
+         				send();
+         				} catch (Exception e) {
+         					// TODO Auto-generated catch block
+         					e.printStackTrace();
+         				}
+        	      
+        	     
+        	       
 			
 			
 		//database
@@ -196,7 +238,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	//	search=searchword.getText().toString();
 		//filter();
 	//}
-	public void CDrive(View v) throws Exception {
+/*	public void CDrive(View v) throws Exception {
 		choice=1;
 		//help.deleteToDo(1);
 		send();
@@ -210,6 +252,12 @@ public void GDrive(View v) throws Exception {
 	choice=3;
 	send();
 }
+*/
+	public void Refresh(View v) throws Exception {
+		choice=0;
+		send();
+	}
+	
 public void backer(View v) throws Exception {
 
 	sendback();
@@ -331,8 +379,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	 
 	//longoperations
 		 private class LongOperationfilter extends AsyncTask<String, String, String> {
-		        @SuppressWarnings("unchecked")
-				protected String doInBackground(String... params) {
+		        protected String doInBackground(String... params) {
 		        	
 		        	
 		        	try
@@ -440,7 +487,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	        	
 	        	try
 	        	{
-	        	toServer = new Socket("192.168.43.169",1001);
+	        	toServer = new Socket(IPADDRESS,1001);
 	        	streamFromServer = new ObjectInputStream(toServer.getInputStream());
 	        	streamToServer = new PrintStream(toServer.getOutputStream());
 
@@ -476,6 +523,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	    	                 int pos = path.lastIndexOf("\\");
 	    	                 String name =path.substring(pos+1 , path.length());
 	    	      	        descriptions[i]=name;
+	    	      	        
 	    	      	        
 	    	      	        //check if file or folder
 	    	      	      File file = new File(vector.elementAt(i));
@@ -533,7 +581,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	        	
 	        	try
 	        	{
-	        	toServer = new Socket("192.168.43.169",1001);
+	        	toServer = new Socket(IPADDRESS,1001);
 	        	streamFromServer = new ObjectInputStream(toServer.getInputStream());
 	        	streamToServer = new PrintStream(toServer.getOutputStream());
 
@@ -621,19 +669,29 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	@Override
 	public boolean onItemLongClick(AdapterView<?> arg0, View view, int i, long l){
 		// TODO Auto-generated method stub
-		//Toast.makeText(this, "longclick", Toast.LENGTH_LONG).show();
+		
 		String Fav;
 	
 		
 		if(Scheck==1){
 			TextView textView=(TextView) view.findViewById(R.id.textView1);
 			String tt=textView.getText().toString();
-			Toast.makeText(getApplicationContext(), tt, Toast.LENGTH_LONG).show();
+			
+			
 			int num=Integer.parseInt(tt);num--;
-			Fav=String.valueOf(vector.elementAt(num));  Scheck=0;}
+			Fav=String.valueOf(vector.elementAt(num));
+			
+			
+			Scheck=0;}
 		else 
 		Fav=String.valueOf(vector.elementAt(i));
 		vectorFav.add(Fav);
+		
+		String path = String.valueOf(Fav);
+        int pos = path.lastIndexOf("\\");
+        String name =path.substring(pos+1 , path.length());
+	       
+		Toast.makeText(this,name+" added to your Favorite List", Toast.LENGTH_SHORT).show();
 	//	Comment comment = datasource.createComment(Fav,vectorFav.size()+1);
 		Log.d("test size",vectorFav.size()+" ");
 		Comment comment = datasource.createComment(Fav);
@@ -662,7 +720,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
         	
         	try
         	{
-        	toServer = new Socket("192.168.43.169",1001);
+        	toServer = new Socket(IPADDRESS,1001);
         	streamFromServer = new ObjectInputStream(toServer.getInputStream());
         	streamToServer = new PrintStream(toServer.getOutputStream());
 

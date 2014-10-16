@@ -1,6 +1,7 @@
 package com.example.pccontrol1;
 
 import com.example.pccontrol1.*;
+import com.mdg.pccontrol1.R;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -37,7 +38,7 @@ public class IPEntry extends Activity {
       String i  = ipaddress.getText().toString();
       
       
-      sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_WORLD_READABLE);
+      sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
       if (sharedpreferences.contains(Name))
       {
@@ -74,6 +75,15 @@ public class IPEntry extends Activity {
 		startActivity(nextActivity);
 
    }
+   
+   public void help(View view){
+	     
+		  Intent nextActivity = new Intent(IPEntry.this,
+					instructions.class);
+			startActivity(nextActivity);
+
+	   }
+   
    @Override
    public boolean onCreateOptionsMenu(Menu menu) {
       // Inflate the menu; this adds items to the action bar if it is present.

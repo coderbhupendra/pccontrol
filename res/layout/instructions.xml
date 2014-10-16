@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textinst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="
+        Instructions:\n
+  1)Run the Remote.exe.  \n    
+  2)First start your portable wifi hotspot.\n
+  3)Connect your pc with mobiles hotspot.\n
+  4)Now open cmd and type the following \n
+       command:     ipconfig/all \n
+  5)Now find out your Wireless Lan Wifi \n
+      IPv4    Address. \n
+  6)Enter the ip address in previous page \n
+      and  save it.\n
+  7)Name is not necessary\n
+  8)Now control your pc\n
+  9)You can change your ip address again \n
+      from setting-ip setting.\n" />
+
+    <Button
+        android:id="@+id/button1"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textinst"
+        android:layout_marginLeft="118dp"
+        android:onClick="ok"
+        android:background="@drawable/ok"/>
+
+</RelativeLayout>

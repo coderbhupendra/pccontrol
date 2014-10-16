@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/listView1"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/home"
+        android:background="@drawable/home7"
         android:onClick="Refresh" />
 
    <TextView
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/button3"
-        android:background="@drawable/back"
+        android:background="@drawable/back7"
         android:onClick="backer"  />
 
     <Button
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/button4"
-        android:background="@drawable/fav"
+        android:background="@drawable/fav7"
         android:onClick="history" />
 
     <ListView

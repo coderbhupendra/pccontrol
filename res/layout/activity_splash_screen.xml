@@ -11,4 +11,17 @@
         android:layout_centerVertical="true"
         android:src="@drawable/control" />
 
+    <TextView
+        android:id="@+id/appname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imageView1"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/imageView1"
+        android:layout_marginTop="59dp"
+        android:text="PC CONTROL"
+android:height="50dp"
+android:width="40dp"
+ />
+
 </RelativeLayout>

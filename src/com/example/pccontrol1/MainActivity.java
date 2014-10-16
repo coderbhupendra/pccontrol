@@ -1,4 +1,5 @@
 package com.example.pccontrol1;
+import com.mdg.pccontrol1.R;
 import database.Comment;
 import database.MySQLiteHelper;
 import database.CommentsDataSource;
@@ -28,6 +29,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -50,7 +52,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	EditText searchword;
 	//Button searchbutton;
 	static String headpath="nopath";
-	static String head="nohead";
+	static String head="PLEASE START THE HOTSPOT FIRST .\n" +
+	"ENTER CORRECT IP ADSRESS. \n "+
+			
+			"FOR THAT READ THE INSTRUCTIONS IN IP SETTINGS";
 	static String search=" ";
 	
 	
@@ -76,16 +81,18 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     String[] actions = new String[] {
         "Settings",
         "IP Setting",
-        "Help"
+        "Instructions"
     };
 	
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_main);
 		
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
+		
 		
         header=(TextView) findViewById(R.id.textView1);
         searchword=(EditText) findViewById(R.id.editText1);
@@ -97,7 +104,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
        ////////dropdown action bar
         /** Create an array adapter to populate dropdownlist */
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_dropdown_item, actions);
- 
+ //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.actionbar,R.id.textViewcustum, actions);
+        
         /** Enabling dropdown list navigation for the action bar */
         getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
  
@@ -111,6 +119,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                 {
                 case 1: Intent IPActivity = new Intent(MainActivity.this,IPEntry.class);
 				startActivity(IPActivity);
+				break;
+                case 2: Intent InstructionActivity = new Intent(MainActivity.this,instructions.class);
+				startActivity(InstructionActivity);
 				break;
                 
                 };
@@ -310,7 +321,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	private void display() {
 		// TODO Auto-generated method stub
 		
-		
+		try{
 		 list=(ListView)findViewById(R.id.listView1);
 		 adapter =new VivzAdapter(this,titles,descriptions,images); 
 		 list.setAdapter(adapter);
@@ -319,7 +330,13 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		list.setOnItemClickListener( this);
 		list.setOnItemLongClickListener(this);
 		list.setOnItemSelectedListener(this);
-		
+		}
+		catch(Exception e)
+    	{
+    	System.out.println("no network" + e ) ;
+    	header.setText("PLEASE START THE HOTSPOT FIRST");
+    	
+     	}
 		
 	}
 	
@@ -528,7 +545,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	    	      	        //check if file or folder
 	    	      	      File file = new File(vector.elementAt(i));
 	    	      	      if(file.isFile()){images[i]=R.drawable.folder2;}
-	    	      	      else images[i]=R.drawable.right;
+	    	      	      //else images[i]=R.drawable.right;
 	    	      		}
 	                }
 	                else
@@ -591,11 +608,17 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	        	if(getsize==1)s=1;
 	        	else s=2;
 	        	  
+	        	
 	        	streamToServer.println(vectorBack.elementAt(vectorBack.size()-s));
 	        	//now remove the last position from backvector
 	        	
+	        	Vector<Integer> ids = new Vector<Integer>();
+	        	//receive vectors from the server
+	        	
+	        	 
 	        	//receive vectors from the server
 	        	 vector =(Vector<String>)streamFromServer.readObject();
+	        	 ids=(Vector<Integer>)streamFromServer.readObject();
 	        	 size=vector.size();
 	        	
 	        	
@@ -617,7 +640,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	                 String name =path.substring(pos+1 , path.length());
 	      	        descriptions[i]=name;
 	      	      File file = new File(vector.elementAt(i));
-	      	    images[i]=R.drawable.folder2;
+	     	       if(ids.elementAt(i)==1)
+	     	      images[i]=R.drawable.file;
+	     	       else  images[i]=R.drawable.folder2;
 	      	      
 	      		}
 	        	
@@ -729,8 +754,10 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
         	streamToServer.println("inside");
     		streamToServer.println(fi);
     		
+    		Vector<Integer> ids = new Vector<Integer>();
         	//receive vectors from the server
         	 vector =(Vector<String>)streamFromServer.readObject();
+        	 ids=(Vector<Integer>)streamFromServer.readObject();
         	 size=vector.size();
         	 
         	 titles=new String[size];
@@ -751,7 +778,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
                 String name =path.substring(pos+1 , path.length());
      	        descriptions[i]=name;
      	       File file = new File(vector.elementAt(i));
-     	      images[i]=R.drawable.folder2;
+     	       if(ids.elementAt(i)==1)
+     	      images[i]=R.drawable.file;
+     	       else  images[i]=R.drawable.folder2;
      	     }
 
 

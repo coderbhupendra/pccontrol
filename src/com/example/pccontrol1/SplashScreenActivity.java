@@ -1,18 +1,25 @@
 package com.example.pccontrol1;
 
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Window;
+import android.widget.TextView;
+import com.mdg.pccontrol1.R;
 
 /*
  * This is our first activity.
  */
-public class SplashScreenActivity extends Activity {
 
+public class SplashScreenActivity extends Activity {
+TextView appname;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -23,6 +30,11 @@ public class SplashScreenActivity extends Activity {
 		// our layout xml
 		setContentView(R.layout.activity_splash_screen);
 
+		appname=(TextView) findViewById(R.id.appname);
+		 Typeface custom_font = Typeface.createFromAsset(getAssets(),
+       	      "fonts/timeburner_regular.ttf");
+        appname.setTypeface(custom_font,Typeface.BOLD_ITALIC);
+		
 		// we're gonna use a timer task to show the main activity after 4 seconds
 		TimerTask task = new TimerTask() {
 
@@ -44,7 +56,12 @@ public class SplashScreenActivity extends Activity {
 		// Schedule a task for single execution after a specified delay.
 		// Show splash screen for 4 seconds
 		new Timer().schedule(task, 2000);
+		
+		MediaPlayer player=MediaPlayer.create(SplashScreenActivity.this,R.raw.sms);
+		player.start();
 
+		
+		
 	}
 
 }

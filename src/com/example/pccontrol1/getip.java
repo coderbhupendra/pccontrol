@@ -17,6 +17,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.util.Log;
 import android.view.Menu;
+import com.mdg.pccontrol1.R;
 
 public class getip extends Activity {
 	ServerSocket server;

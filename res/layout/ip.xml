@@ -57,9 +57,27 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="23dp"
         android:onClick="run"
-        android:text="save" />
+         android:background="@drawable/ok2" />
 
-    
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/button1"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="18dp"
+        android:text="wifi IPv4 address" />
+
+    <Button
+        android:id="@+id/button2"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/help"
+      
+        android:onClick="help"/>
     
 </RelativeLayout>
 

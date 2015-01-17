@@ -5,6 +5,7 @@ package com.example.pccontrol1;
  * http://www.technotalkative.com
  */
 
+import songs.Favsongs;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -66,7 +67,7 @@ public class HomeActivity extends DashBoardActivity {
 			break;
 		case R.id.impfiles:
 
-			intent = new Intent(this, music.class);
+			intent = new Intent(this, Favsongs.class);
 			startActivity(intent);
 			break;
 		//case R.id.email:

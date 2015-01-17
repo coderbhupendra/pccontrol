@@ -1,5 +1,7 @@
-package com.example.pccontrol1;
+package songs;
 import com.mdg.pccontrol1.R;
+import com.example.pccontrol1.*;
+
 import database.Comment;
 import database.MySQLiteHelper;
 import database.CommentsDataSource;
@@ -8,7 +10,6 @@ import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.text.BreakIterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -16,41 +17,26 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 
-import android.app.ActionBar.OnNavigationListener;
-import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
-public class computer extends DashBoardActivity implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener ,AdapterView.OnItemSelectedListener 
-,OnEditorActionListener {
+public class computerFavsongs extends Activity implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener ,AdapterView.OnItemSelectedListener 
+ {
 	ListView list;
 	String[] titles;
 	String[] descriptions;
 	int[] images;
 	static int choice=0,fileornotflag=0;
 	
-	TextView header;
-	EditText searchword;
+	
 	//Button searchbutton;
 	static String headpath="nopath";
 	static String head="PLEASE START THE HOTSPOT FIRST .\n" +
@@ -69,15 +55,15 @@ public class computer extends DashBoardActivity implements AdapterView.OnItemCli
 	   public static final String Name = "nameKey"; 
 	   public static final String IP = "IPKey"; 
 	   
-	static Vector<String> vector,searchvector;
-	static Vector vectorBack = new Vector();
-	static Vector vectorFav = new Vector();
+	static Vector<String> vectorsong,searchvector;
+	static Vector vectorBackSongs = new Vector();
+	static Vector vectorFavSongs = new Vector();
 
 	static int size=6;
 	VivzAdapter adapter;
     static	String fi;
     
-public static CommentsDataSource datasource;
+public static CommentsDataSource datasourcesongs;
 public static MySQLiteHelper help;
 	int Scheck=0;
 	
@@ -93,54 +79,16 @@ public static MySQLiteHelper help;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.activity_main);
-	setHeader(getString(R.string.app_name), true, true);
+		setContentView(R.layout.computerfavsongs);
 		
-		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
+		//this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
 		
-		
-        header=(TextView) findViewById(R.id.textView1);
-        searchword=(EditText) findViewById(R.id.editText1);
-		//searchbutton=(Button) findViewById(R.id.button6);
-        
-        
-       IPEntry ipe=new IPEntry();
-       IPADDRESS=ipe.ip;
-       
-        
-        
-        Typeface custom_font = Typeface.createFromAsset(getAssets(),
-        	      "fonts/timeburner_regular.ttf");
-        	      header.setTypeface(custom_font);
-        	      searchword.setTypeface(custom_font,Typeface.BOLD_ITALIC);
-		
-        	      if(impsongs.choice==4){ 
-        	    	  fi=impsongs.fi;
-        	    	  //check if the path is file or not
-        	    	// new LongOperationfileornot().execute();
-        	    	 //copied in its postexecute
-        	    	// if(fileornotflag==1){new LongOperationplay().execute();}
-        	    	 //else 
-        	    	  new LongOperation1().execute();
-        	    	 impsongs.choice=0 ;
-        	      }
-        	      else
-        	      {
-        	      try {
-         				send();
-         				} catch (Exception e) {
-         					// TODO Auto-generated catch block
-         					e.printStackTrace();
-         				}
-        	      
-        	      }
-        	       
-			
-			
-		//database
-	
-		datasource = new CommentsDataSource(this);
-	    datasource.open();
+			//database
+		 IPEntry ipe=new IPEntry();
+	       IPADDRESS=ipe.ip;
+	       
+		datasourcesongs = new CommentsDataSource(this);
+	    datasourcesongs.open();
 		
 	    help=new MySQLiteHelper(getApplicationContext());
 	    
@@ -150,53 +98,34 @@ public static MySQLiteHelper help;
 		{
 	    
 	  List<String> listfiles=help.getAllToDos();
-     //  vectorFav=(Vector) listfiles;
+     //  vectorFavSongs=(Vector) listfiles;
        for(int i=0;i<listfiles.size();i++)
        {
-    	  vectorFav.add(i, listfiles.get(i)); 
+    	  vectorFavSongs.add(i, listfiles.get(i)); 
        }
        //counter=1;
        spa.counter++;
 		}
         /////////////
 		
-		searchword.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
-				search= searchword.getText().toString();
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				search= searchword.getText().toString();
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				if (0 != searchword.getText().length()) {
-					search= searchword.getText().toString();
-					
-				} else {
-					search="";
-				}
-				filter();
-			}
-		});
-		
+try {
+	send();
+	display();
+} catch (Exception e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}
 		 }
 	
 	@Override
 	  protected void onResume() {
-	    datasource.open();
+	    datasourcesongs.open();
 	    super.onResume();
 	  }
 
 	  @Override
 	  protected void onPause() {
-	    datasource.close();
+	    datasourcesongs.close();
 	    super.onPause();
 	  }
 	
@@ -210,11 +139,7 @@ public static MySQLiteHelper help;
 	}
 	}
 	
-	@Override
-	public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 	
 	public void filter(){
 		   try {
@@ -226,38 +151,7 @@ public static MySQLiteHelper help;
 		}
 	
 	
-	/*
-	@Override
-	   public boolean onKeyDown(int keyCode, KeyEvent event) {
-	if (keyCode == KeyEvent.KEYCODE_BACK) {
-	    onBackPressed();
-		
-	}
-
-	return super.onKeyDown(keyCode, event);
-	}*/
-	
-//button defenetion
-	//public void search(View v) throws Exception {
-	//	search=searchword.getText().toString();
-		//filter();
-	//}
-/*	public void CDrive(View v) throws Exception {
-		choice=1;
-		//help.deleteToDo(1);
-		send();
-	}
-public void EDrive(View v) throws Exception {
-	choice=2;
-	send();
-	
-	}
-public void GDrive(View v) throws Exception {
-	choice=3;
-	send();
-}
-*/
-	public void Refresh(View v) throws Exception {
+		public void Refresh(View v) throws Exception {
 		choice=0;
 		send();
 	}
@@ -273,11 +167,11 @@ public void openDrive() throws Exception {
 
 @SuppressLint("NewApi")
 public void history(View v) throws Exception {
-    FavList fv=new FavList();
+    Favsongs fv=new Favsongs();
     if(spa.counter==0)
-	vectorFav=fv.getVectorFav();
+	vectorFavSongs=fv.getvectorFavSongs();
 	
-	Intent intent=new Intent(computer.this,FavList.class);  
+	Intent intent=new Intent(computerFavsongs.this,Favsongs.class);  
     startActivityForResult(intent, 2);// Activity is started with requestCode 2 
 
 	//sendback();
@@ -316,7 +210,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		// TODO Auto-generated method stub
 		
 		try{
-		 list=(ListView)findViewById(R.id.listView1);
+		 list=(ListView)findViewById(R.id.listViewaddsongsfolder);
 		 adapter =new VivzAdapter(this,titles,descriptions,images); 
 		 list.setAdapter(adapter);
 		 adapter.notifyDataSetChanged();
@@ -328,7 +222,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		catch(Exception e)
     	{
     	System.out.println("no network" + e ) ;
-    	header.setText("PLEASE START THE HOTSPOT FIRST");
     	
      	}
 		
@@ -336,7 +229,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	
 	private void displaysearchlist() {
 		// TODO Auto-generated method stub
-		 list=(ListView)findViewById(R.id.listView1);
+		 list=(ListView)findViewById(R.id.listViewaddsongsfolder);
 		 adapter =new VivzAdapter(this,titles,descriptions,images); 
 		 list.setAdapter(adapter);
 		 adapter.notifyDataSetChanged();
@@ -349,12 +242,12 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 //getters ans setters
 	
 	public Vector<String> getFavVector() {
-		return vectorFav;
+		return vectorFavSongs;
 		
 	}
 
 	public void setFavVector(Vector<String> vec) {
-		vectorFav=vec;
+		vectorFavSongs=vec;
 	}
 	
 	public void delFavVector(String del) {
@@ -374,9 +267,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	 public void sendback() throws Exception {
 		
 		 //check if there is any element present in backvector
-		 if(vectorBack.size()>0)
+		 if(vectorBackSongs.size()>0)
 	    	{
-			 Toast.makeText(this,vectorBack.size()+"fi"+vectorBack.lastElement(),Toast.LENGTH_SHORT).show();
+			 Toast.makeText(this,vectorBackSongs.size()+"fi"+vectorBackSongs.lastElement(),Toast.LENGTH_SHORT).show();
 			 new LongOperationback().execute();}
 	    	
 	    }
@@ -416,7 +309,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	        	}//end of try
 	        	catch(Exception e)
 	        	{
-	        	System.out.println("Exception9" + e ) ;
+	        	System.out.println("Exception1" + e ) ;
 	        	}
 	        	
 		return "";
@@ -484,7 +377,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 
 		        	//receive vectors from the server
 		        	
-		        	 size=vector.size();
+		        	 size=vectorsong.size();
 		        	 //convert firatcharater
 		        	//String firstLetter = String.valueOf(search.charAt(0)).toUpperCase();
 		        	//String newletter=firstLetter+search.substring(1, search.length()-1);
@@ -492,7 +385,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		        	int j=0;
 		        	 for(int i=0;i<size;i++){
 	    	      			
-	    	      			String path = String.valueOf(vector.elementAt(i));
+	    	      			String path = String.valueOf(vectorsong.elementAt(i));
 	    	                 int pos = path.lastIndexOf("\\");
 	    	                 String name =path.substring(pos+1 , path.length());
 	    	                 if(search!=" ")
@@ -509,7 +402,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		    		 images=new int[j];
 		    		 
 		    		 //path for headpath
-		    		   headpath = String.valueOf(vector.elementAt(0));
+		    		   headpath = String.valueOf(vectorsong.elementAt(0));
 		                int pos1 = headpath.lastIndexOf("\\");
 		                head =headpath.substring(0 , pos1);
 		                
@@ -519,7 +412,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		    	      			
 		    	      			
 		    	      			//seperating the  last name from filenam
-		    	      			String path = String.valueOf(vector.elementAt(i));
+		    	      			String path = String.valueOf(vectorsong.elementAt(i));
 		    	                 int pos = path.lastIndexOf("\\");
 		    	                 String name =path.substring(pos+1 , path.length());
 		    	                 if(search!=" ")
@@ -548,7 +441,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		        	}//end of try
 		        	catch(Exception e)
 		        	{
-		        	System.out.println("Exception9" + e ) ;
+		        	System.out.println("Exception92" + e ) ;
 		        	}
 		        	
 			return "";
@@ -566,9 +459,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		        	 else display();
 		        	//putting the header in the  textview
 		        	
-		        	header.setText(head);
-				 
-					super.onPostExecute(result);
+		        	super.onPostExecute(result);
 				  }
 		        
 		}//end of long process
@@ -592,13 +483,13 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	        	if(choice==0){
 	        	//send a message to the server
 	        	streamToServer.println("From Timer");}
-	        	else if(choice==1){ vectorBack.add("C:\\"); streamToServer.println("C");}
-	        	else if(choice==2){ vectorBack.add("E:\\"); streamToServer.println("E");}
-	        	else if(choice==3){ vectorBack.add("D:\\"); streamToServer.println("D");}
+	        	else if(choice==1){ vectorBackSongs.add("C:\\"); streamToServer.println("C");}
+	        	else if(choice==2){ vectorBackSongs.add("E:\\"); streamToServer.println("E");}
+	        	else if(choice==3){ vectorBackSongs.add("D:\\"); streamToServer.println("D");}
 	        	
 	        	//receive vectors from the server
-	        	 vector =(Vector<String>)streamFromServer.readObject();
-	        	 size=vector.size();
+	        	 vectorsong =(Vector<String>)streamFromServer.readObject();
+	        	 size=vectorsong.size();
 	        	
 	        	
 	        	 titles=new String[size];
@@ -606,7 +497,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	    		 images=new int[size];
 	    		 
 	    		 //path for headpath
-	    		   headpath = String.valueOf(vector.elementAt(0));
+	    		   headpath = String.valueOf(vectorsong.elementAt(0));
 	                int pos1 = headpath.lastIndexOf("\\");
 	                head =headpath.substring(0 , pos1);
 	                
@@ -616,14 +507,14 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	    	      			titles[i]=String.valueOf(i+1);
 	    	      			
 	    	      			//seperating the  last name from filenam
-	    	      			String path = String.valueOf(vector.elementAt(i));
+	    	      			String path = String.valueOf(vectorsong.elementAt(i));
 	    	                 int pos = path.lastIndexOf("\\");
 	    	                 String name =path.substring(pos+1 , path.length());
 	    	      	        descriptions[i]=name;
 	    	      	        
 	    	      	        
 	    	      	        //check if file or folder
-	    	      	      File file = new File(vector.elementAt(i));
+	    	      	      File file = new File(vectorsong.elementAt(i));
 	    	      	      if(file.isFile()){images[i]=R.drawable.folder2;}
 	    	      	      //else images[i]=R.drawable.right;
 	    	      		}
@@ -635,7 +526,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	    	      			titles[i]=String.valueOf(i+1);
 	    	      			
 	    	      			//seperating the  last name from filenam
-	    	      			String path = String.valueOf(vector.elementAt(i));
+	    	      			String path = String.valueOf(vectorsong.elementAt(i));
 	    	                descriptions[i]=path;
 	    	      			images[i]=R.drawable.drive2;
 	    	      		}
@@ -647,7 +538,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	        	}//end of try
 	        	catch(Exception e)
 	        	{
-	        	System.out.println("Exception9" + e ) ;
+	        	System.out.println("Exception93" + e ) ;
 	        	}
 	        	
 		return "";
@@ -662,10 +553,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	        protected void onPostExecute(String result) {
 	        	display();
 	        	//putting the header in the  textview
-	        	
-	        	header.setText(head);
-			 
-				super.onPostExecute(result);
+	        super.onPostExecute(result);
 			  }
 	        
 	}//end of long process
@@ -686,12 +574,12 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 
                     
 	        	streamToServer.println("back");
-	        	int getsize=vectorBack.size();int s=0;
+	        	int getsize=vectorBackSongs.size();int s=0;
 	        	if(getsize==1)s=1;
 	        	else s=2;
 	        	  
 	        	
-	        	streamToServer.println(vectorBack.elementAt(vectorBack.size()-s));
+	        	streamToServer.println(vectorBackSongs.elementAt(vectorBackSongs.size()-s));
 	        	//now remove the last position from backvector
 	        	
 	        	Vector<Integer> ids = new Vector<Integer>();
@@ -699,9 +587,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	        	
 	        	 
 	        	//receive vectors from the server
-	        	 vector =(Vector<String>)streamFromServer.readObject();
+	        	 vectorsong =(Vector<String>)streamFromServer.readObject();
 	        	 ids=(Vector<Integer>)streamFromServer.readObject();
-	        	 size=vector.size();
+	        	 size=vectorsong.size();
 	        	
 	        	
 	        	 titles=new String[size];
@@ -709,7 +597,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	    		 images=new int[size];
 	    		 
 	    		 //path for headpath
-	    		    headpath = String.valueOf(vector.elementAt(0));
+	    		    headpath = String.valueOf(vectorsong.elementAt(0));
 	                int pos1 = headpath.lastIndexOf("\\");
 	                head =headpath.substring(0 , pos1);
 	    		 
@@ -717,21 +605,19 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	      			titles[i]=String.valueOf(i+1);
 	      			
 	      			//seperating the  last name from filenam
-	      			String path = String.valueOf(vector.elementAt(i));
+	      			String path = String.valueOf(vectorsong.elementAt(i));
 	                 int pos = path.lastIndexOf("\\");
 	                 String name =path.substring(pos+1 , path.length());
 	      	        descriptions[i]=name;
-	      	      File file = new File(vector.elementAt(i));
+	      	      File file = new File(vectorsong.elementAt(i));
 	     	       if(ids.elementAt(i)==1)
 	     	      images[i]=R.drawable.file;
 	     	       else  images[i]=R.drawable.folder2;
 	      	      
 	      		}
 	        	
-	    		 vectorBack.removeElementAt(vectorBack.size()-1);
-		        
-	    		 if(vectorBack.size()==0){send();}
-	    		 
+	    		 vectorBackSongs.removeElementAt(vectorBackSongs.size()-1);
+		        	
 	    		 if(streamFromServer!=null)streamFromServer.close();
 		        	if(streamToServer!=null)streamToServer.close();
 	                if(toServer!=null)toServer.close();
@@ -739,7 +625,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	        	}//end of try
 	        	catch(Exception e)
 	        	{
-	        	System.out.println("Exception9" + e ) ;
+	        	System.out.println("Exception94" + e ) ;
 	        	}
 	        	
 		return "";
@@ -749,8 +635,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	        	display();
 	        	//putting the header in the  textview
 	        	
-	        	header.setText(head);
-			 
 				super.onPostExecute(result);
 			  }
 	        
@@ -762,7 +646,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	public void onItemClick(AdapterView<?> arg0, View view, int i, long l) {
 		
 		int open=Integer.parseInt(titles[i]);
-		fi=String.valueOf(vector.elementAt(open-1));
+		fi=String.valueOf(vectorsong.elementAt(open-1));
 		System.out.println(i+" "+open);
 		
 		
@@ -790,22 +674,22 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 			
 			
 			int num=Integer.parseInt(tt);num--;
-			Fav=String.valueOf(vector.elementAt(num));
+			Fav=String.valueOf(vectorsong.elementAt(num));
 			
 			
 			Scheck=0;}
 		else 
-		Fav=String.valueOf(vector.elementAt(i));
-		vectorFav.add(Fav);
+		Fav=String.valueOf(vectorsong.elementAt(i));
+		vectorFavSongs.add(Fav);
 		
 		String path = String.valueOf(Fav);
         int pos = path.lastIndexOf("\\");
         String name =path.substring(pos+1 , path.length());
 	       
 		Toast.makeText(this,name+" added to your Favorite List", Toast.LENGTH_SHORT).show();
-	//	Comment comment = datasource.createComment(Fav,vectorFav.size()+1);
-		Log.d("test size",vectorFav.size()+" ");
-		Comment comment = datasource.createComment(Fav);
+	//	Comment comment = datasource.createComment(Fav,vectorFavSongs.size()+1);
+		Log.d("test size",vectorFavSongs.size()+" ");
+		Comment comment = datasourcesongs.createComment(Fav);
 		
 		return false;
 	}
@@ -837,21 +721,21 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 
 
         	//send a message to the server
-        	streamToServer.println("inside");
+        	streamToServer.println("musicsteps");
     		streamToServer.println(fi);
     		
     		Vector<Integer> ids = new Vector<Integer>();
         	//receive vectors from the server
-        	 vector =(Vector<String>)streamFromServer.readObject();
+        	 vectorsong =(Vector<String>)streamFromServer.readObject();
         	 ids=(Vector<Integer>)streamFromServer.readObject();
-        	 size=vector.size();
+        	 size=vectorsong.size();
         	 
         	 titles=new String[size];
     		 descriptions=new String[size];
     		 images=new int[size];
     		 
     		//path for headpath
-  		   headpath = String.valueOf(vector.elementAt(0));
+  		   headpath = String.valueOf(vectorsong.elementAt(0));
               int pos1 = headpath.lastIndexOf("\\");
                head =headpath.substring(0 , pos1);
         	 
@@ -859,11 +743,11 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
      			titles[i]=String.valueOf(i+1);
      			
      			//seperating the  last name from filenam
-     			String path = String.valueOf(vector.elementAt(i));
+     			String path = String.valueOf(vectorsong.elementAt(i));
                 int pos = path.lastIndexOf("\\");
                 String name =path.substring(pos+1 , path.length());
      	        descriptions[i]=name;
-     	       File file = new File(vector.elementAt(i));
+     	       File file = new File(vectorsong.elementAt(i));
      	       if(ids.elementAt(i)==1)
      	      images[i]=R.drawable.file;
      	       else  images[i]=R.drawable.folder2;
@@ -871,7 +755,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 
 
      		//recode the path for back functionality
-     		vectorBack.addElement(fi);
+     		vectorBackSongs.addElement(fi);
      		
      		if(streamFromServer!=null)streamFromServer.close();
         	if(streamToServer!=null)streamToServer.close();
@@ -880,7 +764,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
         	}//end of try
         	catch(Exception e)
         	{
-        	System.out.println("Exception9" + e ) ;
+        	System.out.println("Exception95" + e ) ;
         	}
         	
 	return "";
@@ -888,19 +772,12 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
         
         protected void onPostExecute(String result) {
         	display();
-        	header.setText(head);
         	//Toast.makeText(getApplicationContext(),"123"+"fi"+fi,Toast.LENGTH_SHORT).show();
 			super.onPostExecute(result);
 		  }
         
 }//end of long process
 
-
-
-	
-
-
-	
 
 
 	

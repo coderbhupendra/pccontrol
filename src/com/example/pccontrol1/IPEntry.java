@@ -3,12 +3,15 @@ package com.example.pccontrol1;
 import com.example.pccontrol1.*;
 import com.mdg.pccontrol1.R;
 
+import android.net.DhcpInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.text.format.Formatter;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
@@ -17,7 +20,7 @@ import android.widget.Toast;
 public class IPEntry extends Activity {
 
    TextView name ;
-   TextView ipaddress;
+   TextView ipaddress,ipname;
    
    public static final String MyPREFERENCES = "MyPrefs" ;
    public static final String Name = "nameKey"; 
@@ -34,10 +37,13 @@ public class IPEntry extends Activity {
 
       name = (TextView) findViewById(R.id.editTextName);
       ipaddress = (TextView) findViewById(R.id.editTextIP);
-      
+      ipname= (TextView) findViewById(R.id.textViewip);
       String i  = ipaddress.getText().toString();
       
-      
+      final WifiManager manager = (WifiManager) super.getSystemService(WIFI_SERVICE);
+  	final DhcpInfo dhcp = manager.getDhcpInfo();
+  	final String address = Formatter.formatIpAddress(dhcp.gateway);
+  	ipname.setText(address);
       sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
       if (sharedpreferences.contains(Name))
@@ -71,7 +77,7 @@ public class IPEntry extends Activity {
       Toast.makeText(getBaseContext(), ip , Toast.LENGTH_SHORT).show();
       
 	  Intent nextActivity = new Intent(IPEntry.this,
-				MainActivity.class);
+				HomeActivity.class);
 		startActivity(nextActivity);
 
    }

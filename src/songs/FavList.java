@@ -1,7 +1,6 @@
-package com.example.pccontrol1;
+package songs;
 import java.util.Vector;
-
-
+import com.example.pccontrol1.*;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
@@ -13,9 +12,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.mdg.pccontrol1.R;
-import database.Comment;
-import database.MySQLiteHelper;
-import database.CommentsDataSource;
 
 public class FavList extends Activity implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 

@@ -20,7 +20,10 @@ import com.mdg.pccontrol1.R;
 
 public class SplashScreenActivity extends Activity {
 TextView appname;
+//int counter  database check
+	static public int counter=0,countersong=0;
 	@Override
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -29,7 +32,7 @@ TextView appname;
 
 		// our layout xml
 		setContentView(R.layout.activity_splash_screen);
-
+counter=1;countersong=1;
 		appname=(TextView) findViewById(R.id.appname);
 		 Typeface custom_font = Typeface.createFromAsset(getAssets(),
        	      "fonts/timeburner_regular.ttf");

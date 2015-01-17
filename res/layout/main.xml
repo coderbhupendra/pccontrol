@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#00ffffff" >
+
+    <!-- Included header.xml here -->
+	<ViewStub android:id="@+id/vsHeader" 
+	    android:inflatedId="@+id/header" 
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content" 
+		android:layout="@layout/header" />
+
+	<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:padding="6dip">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <Button android:id="@+id/computer"
+            style="@style/HomeButton"
+            android:onClick="onButtonClicker"
+            android:text="@string/computer"
+            android:drawableTop="@drawable/comp1"/>
+        <Button android:id="@+id/settings"
+            style="@style/HomeButton"
+            android:onClick="onButtonClicker"
+            android:text="@string/settings"
+            android:drawableTop="@drawable/settings1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <Button android:id="@+id/help"
+            style="@style/HomeButton"
+            android:onClick="onButtonClicker"
+            android:text="@string/help"
+            android:drawableTop="@drawable/help11"/>
+        <Button android:id="@+id/favfile"
+            style="@style/HomeButton"
+            android:onClick="onButtonClicker"
+            android:text="@string/favfile"
+            android:drawableTop="@drawable/favfile2"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <Button android:id="@+id/music"
+            style="@style/HomeButton"
+            android:onClick="onButtonClicker"
+            android:text="@string/music"
+            android:drawableTop="@drawable/music1"/>
+
+        <Button
+            android:id="@+id/mouse"
+            style="@style/HomeButton"
+            android:drawableTop="@drawable/mouse"
+            android:onClick="onButtonClicker"
+            android:text="@string/mouse" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/impfiles"
+            style="@style/HomeButton"
+            android:drawableTop="@drawable/email"
+            android:onClick="onButtonClicker"
+            android:text="@string/email" />
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+
+</LinearLayout>

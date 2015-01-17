@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">PCControl1</string>
+    <string name="app_name">PC Control</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-
+ <string name="txtDemo">This is the DashBoard pattern example by Paresh N. Mayani @ www.technotalkative.com </string>
+    
+    <!-- Activity Titles -->
+    <string name="HomeActivityTitle">PC Control</string>
+    <string name="FeedbackActivityTitle">Feedback</string>
+    <string name="files">IMP FILES</string>
+    <string name="settings">SETTINGS</string>
+    <string name="help">HELP</string>
+    <string name="computer">COMPUTER</string>
+    <string name="favfile">FAV FILES</string>
+    <string name="music">MUSIC</string>
+    <string name="email">EMAIL</string>
+    <string name="mouse">MOUSE</string>
 </resources>

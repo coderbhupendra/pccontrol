@@ -1,11 +1,14 @@
 package com.example.pccontrol1;
+import java.io.ObjectInputStream;
+import java.io.PrintStream;
+import java.net.Socket;
+import java.util.List;
 import java.util.Vector;
 
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,11 +16,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.mdg.pccontrol1.R;
-import database.Comment;
-import database.MySQLiteHelper;
-import database.CommentsDataSource;
 
-public class FavList extends Activity implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
+import database.MySQLiteHelper;
+
+public class impsongs extends DashBoardActivity implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 
 	ListView list;
 	String[] titles;
@@ -30,11 +32,12 @@ public class FavList extends Activity implements AdapterView.OnItemClickListener
 	static String head="nohead";
 	
 	
-
+	SplashScreenActivity spa= new SplashScreenActivity();
+	public static MySQLiteHelper help;
 	
 	static Vector vectorFav = new Vector();
 
-	public FavList() {
+	public impsongs() {
 		// TODO Auto-generated constructor stub
 		computer MA=new computer();
 		vectorFav=MA.getFavVector();
@@ -45,11 +48,14 @@ public class FavList extends Activity implements AdapterView.OnItemClickListener
     static	String fi;
 	@SuppressLint("NewApi")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.custom_layout);
-       
-		setFinishOnTouchOutside(false);
+		setContentView(R.layout.impsongs);
+		setHeader(getString(R.string.files), true, true);
+		
+		 help=new MySQLiteHelper(getApplicationContext());
+		
+		
 		
 		try {
 			send();
@@ -58,29 +64,21 @@ public class FavList extends Activity implements AdapterView.OnItemClickListener
 			e.printStackTrace();
 		}
 		 }
+	    
 	
 	
 	public Vector<String> getVectorFav() {
 		return vectorFav;
 	}
 	
-	public void FavBack(View v) {
-
-        Intent intent=new Intent();  
-        intent.putExtra("MESSAGE","cancel");  
-          
-        setResult(2,intent);  
-          
-        finish();//finishing activity  
-
-	}
+	
 	
 
 	private void display() {
 		// TODO Auto-generated method stub
 		
 		
-		 list=(ListView)findViewById(R.id.listView2);
+		 list=(ListView)findViewById(R.id.listViewimpfiles);
 		 adapter =new VivzAdapter(this,titles,descriptions,images); 
 		 list.setAdapter(adapter);
 		 adapter.notifyDataSetChanged();
@@ -92,8 +90,23 @@ public class FavList extends Activity implements AdapterView.OnItemClickListener
 
 
 	public void send() throws Exception {
+		if(spa.counter==2)
+		{
+	    
+	  List<String> listfiles=help.getAllToDos();
+     //  vectorFav=(Vector) listfiles;
+       for(int i=0;i<listfiles.size();i++)
+       {
+    	  vectorFav.add(i, listfiles.get(i)); 
+       }
+       //counter=1;
+       spa.counter++;
+		}
+		
+		else {
 		computer MA=new computer();
 		vectorFav=MA.getFavVector();
+		}
 	    	new LongOperation().execute();
 	    	
 	    }
@@ -158,7 +171,96 @@ public class FavList extends Activity implements AdapterView.OnItemClickListener
 	}//end of long process
 
 	 
-	
+	 private class LongOperationfileornot extends AsyncTask<String, String, String> {
+		 Vector<Integer> check = new Vector<Integer>();
+	        @SuppressWarnings("unchecked")
+			protected String doInBackground(String... params) {
+	        	Socket toServer;
+	        	ObjectInputStream streamFromServer;
+	        	PrintStream streamToServer;
+	        	
+	        	
+	        	
+	        	try
+	        	{
+	        	toServer = new Socket(IPEntry.ip,1001);
+	        	streamFromServer = new ObjectInputStream(toServer.getInputStream());
+	        	streamToServer = new PrintStream(toServer.getOutputStream());
+
+     
+	        	//send a message to the server 
+	        	streamToServer.println("fileornot");
+	    	    streamToServer.println(fi);
+	    	  
+	    	    
+	        	//receive vectors from the server
+	        	
+	        	 
+	        	//receive vectors from the server
+	        	
+	        	 check=(Vector<Integer>)streamFromServer.readObject();
+	        	
+	        	
+	        	
+	        	streamFromServer.close();
+
+	        	}//end of try
+	        	catch(Exception e)
+	        	{
+	        	System.out.println("Exception9" + e ) ;
+	        	}
+	        	
+		return "";
+	       }	
+	        protected void onPostExecute(String result) {
+	        	if(check.elementAt(0)==1){new LongOperationplay().execute();}
+	    	 else {
+	    		 Intent intent = new Intent(impsongs.this, computer.class);
+	    			startActivity(intent);
+	    	 }
+	        	Toast.makeText(getApplicationContext(), check.elementAt(0) +"dd", Toast.LENGTH_LONG).show();
+				super.onPostExecute(result);
+			  }
+	        
+	}//end of long process
+	 
+	 public class LongOperationplay extends AsyncTask<String, String, String> {
+	        @SuppressWarnings("unchecked")
+			protected String doInBackground(String... params) {
+	        	Socket toServer;
+	        	ObjectInputStream streamFromServer;
+	        	PrintStream streamToServer;
+	        	try
+	        	{
+	        	toServer = new Socket(IPEntry.ip,1001);
+	        	streamFromServer = new ObjectInputStream(toServer.getInputStream());
+	        	streamToServer = new PrintStream(toServer.getOutputStream());
+
+     
+	        	//send a message to the server
+	        	streamToServer.println("play");
+	    		
+	    		streamToServer.println(fi);
+	        	
+	        	
+	        	
+	        	streamFromServer.close();
+
+	        	}//end of try
+	        	catch(Exception e)
+	        	{
+	        	System.out.println("Exception9" + e ) ;
+	        	}
+	        	
+		return "";
+	       }	
+	        protected void onPostExecute(String result) {
+	        
+	        	//Toast.makeText(getApplicationContext(), "started", Toast.LENGTH_LONG).show();
+				super.onPostExecute(result);
+			  }
+	        
+	}//end of long process 
 	 
 	 
 	@Override
@@ -166,14 +268,11 @@ public class FavList extends Activity implements AdapterView.OnItemClickListener
 		
 		
 		fi=String.valueOf(vectorFav.elementAt(i));
+		choice=4;
+		//computer.choice=4;
+		new LongOperationfileornot().execute();
 		
-		
-         Intent intent=new Intent();  
-         intent.putExtra("MESSAGE",fi);  
-           
-         setResult(2,intent);  
-           
-         finish();//finishing activity  
+       
 		
 	}
 	

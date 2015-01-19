@@ -69,7 +69,7 @@ setHeader(getString(R.string.app_name), true, true);
 	public void addsongs(View v) {
 		Intent intent = new Intent(Favsongs.this, computerFavsongs.class);
 		startActivity(intent);
-		
+		finish();
 	}
 	
 	public Vector<String> getvectorFavSongs() {

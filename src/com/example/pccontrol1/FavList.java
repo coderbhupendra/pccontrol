@@ -63,8 +63,17 @@ public class FavList extends Activity implements AdapterView.OnItemClickListener
 	public Vector<String> getVectorFav() {
 		return vectorFav;
 	}
+	@Override
+	public void onBackPressed() {  //19/1/2015 added to remove error .for back press
+		// TODO Auto-generated method stub
+		Intent intent=new Intent(this,computer.class);  
+	     startActivity(intent);
+	     Toast.makeText(getApplicationContext(), "ok", Toast.LENGTH_LONG).show();
+		 finish();//finishing activity  
+		super.onBackPressed();
+	}
 	
-	public void FavBack(View v) {
+		public void FavBack(View v) {
 
         Intent intent=new Intent();  
         intent.putExtra("MESSAGE","cancel");  

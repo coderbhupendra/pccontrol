@@ -151,13 +151,12 @@ try {
 	
 	public void SongsFavBack() {
 
-		Intent intent = new Intent(this,Favsongs.class);
+		 //uncomment this line to open favsong list on last  back of list 19/1/2015
+		
+		
+		//Intent intent = new Intent(this,Favsongs.class);
+		Intent intent = new Intent(this,HomeActivity.class);
 		startActivity(intent);
-        //Intent intent=new Intent();  
-        //intent.putExtra("MESSAGE","cancel");  
-          
-        //setResult(2,intent);  
-          
         finish();//finishing activity  
 
 	}

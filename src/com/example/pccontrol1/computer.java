@@ -378,8 +378,14 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	    	{
 			 Toast.makeText(this,vectorBack.size()+"fi"+vectorBack.lastElement(),Toast.LENGTH_SHORT).show();
 			 new LongOperationback().execute();}
-	    	
+		 else 
+		 { Intent intent = new Intent(this,HomeActivity.class);
+			startActivity(intent);
+	        finish();//finishing activity  
+
+		 }
 	    }
+	 
 	 
 	 public void filterlist() throws Exception {
 			

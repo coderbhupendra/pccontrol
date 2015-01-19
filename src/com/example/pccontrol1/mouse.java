@@ -61,11 +61,25 @@ String IPADDRESS;
         IPEntry ip=new IPEntry();
         IPADDRESS=ip.ip;
         
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-         widthand = size.x;
-        heightand = size.y;
+
+		int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+		if (currentapiVersion <= android.os.Build.VERSION_CODES.HONEYCOMB_MR2)
+		{
+			widthand = this.getWindowManager().getDefaultDisplay().getWidth();
+			heightand = this.getWindowManager().getDefaultDisplay().getHeight();
+		}
+		else
+		{
+			 Display display = getWindowManager().getDefaultDisplay();
+		        Point size = new Point();
+		        display.getSize(size);
+		        widthand = size.x;
+		        heightand = size.y;
+		        
+		}
+        
+        
+       
         
       // Toast.makeText(getApplicationContext(), widthand +"  "+heightand, Toast.LENGTH_LONG).show();
        

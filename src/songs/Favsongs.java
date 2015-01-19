@@ -48,7 +48,17 @@ public class Favsongs extends DashBoardActivity implements AdapterView.OnItemCli
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.favsongs);
        
-		setFinishOnTouchOutside(false);
+		int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+		if (currentapiVersion <= android.os.Build.VERSION_CODES.HONEYCOMB)
+		{
+		// Do something for froyo and above versions
+		}
+		else
+		{
+	     setFinishOnTouchOutside(false);
+		}
+		
+	
 setHeader(getString(R.string.app_name), true, true);
 		
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 

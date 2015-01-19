@@ -49,7 +49,16 @@ public class FavList extends Activity implements AdapterView.OnItemClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.custom_layout);
        
-		setFinishOnTouchOutside(false);
+
+		int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+		if (currentapiVersion <= android.os.Build.VERSION_CODES.HONEYCOMB)
+		{
+		// Do something for froyo and above versions
+		}
+		else
+		{
+	     setFinishOnTouchOutside(false);
+		}
 		
 		try {
 			send();

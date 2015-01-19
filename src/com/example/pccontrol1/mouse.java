@@ -3,9 +3,11 @@ package com.example.pccontrol1;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.PrintStream;
+import java.io.StreamCorruptedException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Vector;
+import java.util.concurrent.RejectedExecutionException;
 
 import com.mdg.pccontrol1.R;
 import android.annotation.SuppressLint;
@@ -263,10 +265,16 @@ String IPADDRESS;
         	          	} catch (UnknownHostException e) {
         	      			// TODO Auto-generated catch block
         	      			e.printStackTrace();
-        	      		} catch (IOException e) {
+        	      		} catch (RejectedExecutionException e) {
         	      			// TODO Auto-generated catch block
         	      			e.printStackTrace();
-        	      		}
+        	      		} catch (StreamCorruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
         	          	}
        	
       		

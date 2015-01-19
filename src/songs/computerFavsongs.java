@@ -247,6 +247,10 @@ public void backer(View v) throws Exception {
 	    }
 	 public void sendback() throws Exception {
 		
+		 list.setEnabled(true);
+      	 list.setClickable(true);
+
+		 
 		 //check if there is any element present in backvector
 		 if(vectorBackSongs.size()>0)
 	    	{
@@ -716,16 +720,20 @@ public void backer(View v) throws Exception {
         	 ids=(Vector<Integer>)streamFromServer.readObject();
         	 size=vectorsong.size();
         	 
-        	 titles=new String[size];
-    		 descriptions=new String[size];
-    		 images=new int[size];
-    		 
-    		//path for headpath
-  		   headpath = String.valueOf(vectorsong.elementAt(0));
-              int pos1 = headpath.lastIndexOf("\\");
-               head =headpath.substring(0 , pos1);
         	 
-        	 for(int i=0;i<size;i++){
+               if(size!=0)
+               {
+            	   titles=new String[size];
+          		 descriptions=new String[size];
+          		 images=new int[size];
+          		 
+          		//path for headpath
+        		   headpath = String.valueOf(vectorsong.elementAt(0));
+                    int pos1 = headpath.lastIndexOf("\\");
+                     head =headpath.substring(0 , pos1);
+              	
+            	   
+            	   for(int i=0;i<size;i++){
      			titles[i]=String.valueOf(i+1);
      			
      			//seperating the  last name from filenam
@@ -735,18 +743,25 @@ public void backer(View v) throws Exception {
      	        descriptions[i]=name;
      	       File file = new File(vectorsong.elementAt(i));
      	       if(ids.elementAt(i)==1)
-     	      images[i]=R.drawable.file;
+     	       images[i]=R.drawable.file;
      	       else  images[i]=R.drawable.folder2;
-     	     }
-
-        	 if(size==0)
-        	 {	titles[0]="SORRY";
-        	    descriptions[0]="No songs in this folder";
-        	    images[0]=R.drawable.file;
-        	 }
-        	 
-
-     		//recode the path for back functionality
+     	                               
+            	   }
+            	   
+               }
+               else
+               {    titles=new String[1];
+        		    descriptions=new String[1];
+        		    images=new int[1];
+        		 
+            	   	titles[0]="SORRY";
+              	    descriptions[0]="No songs in this folder";
+              	    images[0]=R.drawable.file;
+              	  list.setEnabled(false);
+              	  list.setClickable(false);
+                    
+               }
+          	//recode the path for back functionality
      		vectorBackSongs.addElement(fi);
      		
      		if(streamFromServer!=null)streamFromServer.close();
@@ -763,8 +778,8 @@ public void backer(View v) throws Exception {
        }	
         
         protected void onPostExecute(String result) {
-        	display();
-        	//Toast.makeText(getApplicationContext(),"123"+"fi"+fi,Toast.LENGTH_SHORT).show();
+       	 display();
+        	//Toast.makeText(getApplicationContext(),"123"+"size"+vectorsong.size(),Toast.LENGTH_SHORT).show();
 			super.onPostExecute(result);
 		  }
         

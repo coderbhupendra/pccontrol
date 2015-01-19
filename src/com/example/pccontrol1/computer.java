@@ -8,18 +8,14 @@ import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.text.BreakIterator;
 import java.util.List;
 import java.util.Vector;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 
-import android.app.ActionBar.OnNavigationListener;
-import android.app.ActionBar;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -27,15 +23,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -188,6 +179,22 @@ public static MySQLiteHelper help;
 		
 		 }
 	
+	//code to restart activity on exception to connect again to server . 
+@SuppressLint("NewApi")
+public void reset() {
+	if (Build.VERSION.SDK_INT >= 11) {
+	    recreate();
+	} else {
+	    Intent intent = getIntent();
+	    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+	    finish();
+	    overridePendingTransition(0, 0);
+
+	    startActivity(intent);
+	    overridePendingTransition(0, 0);
+	}
+}
+	
 	@Override
 	  protected void onResume() {
 	    datasource.open();
@@ -207,6 +214,7 @@ public static MySQLiteHelper help;
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
+		reset();
 	}
 	}
 	
@@ -222,6 +230,7 @@ public static MySQLiteHelper help;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			reset();
 		}
 		}
 	
@@ -305,6 +314,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+						reset();
 					}
           
                   }  
@@ -327,6 +337,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		}
 		catch(Exception e)
     	{
+			reset();
     	System.out.println("no network" + e ) ;
     	header.setText("PLEASE START THE HOTSPOT FIRST");
     	
@@ -422,6 +433,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	        	}//end of try
 	        	catch(Exception e)
 	        	{
+	        		reset();
 	        	System.out.println("Exception9" + e ) ;
 	        	}
 	        	
@@ -465,7 +477,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	        	}//end of try
 	        	catch(Exception e)
 	        	{
-	        	System.out.println("Exception9" + e ) ;
+	        		reset();System.out.println("Exception9" + e ) ;
 	        	}
 	        	
 		return "";
@@ -553,7 +565,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 
 		        	}//end of try
 		        	catch(Exception e)
-		        	{
+		        	{reset();
 		        	System.out.println("Exception9" + e ) ;
 		        	}
 		        	
@@ -652,7 +664,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
                 if(toServer!=null)toServer.close();
 	        	}//end of try
 	        	catch(Exception e)
-	        	{
+	        	{reset();
 	        	System.out.println("Exception9" + e ) ;
 	        	}
 	        	
@@ -744,7 +756,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 
 	        	}//end of try
 	        	catch(Exception e)
-	        	{
+	        	{reset();
 	        	System.out.println("Exception9" + e ) ;
 	        	}
 	        	
@@ -777,6 +789,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 			send1();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			reset();
 			e.printStackTrace();
 		}
 		
@@ -889,7 +902,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 
         	}//end of try
         	catch(Exception e)
-        	{
+        	{reset();
         	System.out.println("Exception9" + e ) ;
         	}
         	

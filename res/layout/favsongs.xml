@@ -3,6 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <ViewStub
+        android:id="@+id/vsHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inflatedId="@+id/header"
+        android:layout="@layout/header"
+        />
+
+    <ListView
+        android:id="@+id/listViewsongs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="55dp"
+        android:layout_marginBottom="50dp">
+
+    </ListView>
+
     <Button
         android:id="@+id/buttonsongadd"
         android:layout_width="wrap_content"
@@ -10,17 +28,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:text="addsongs"
-        android:onClick="addsongs" />
-
-    <ListView
-        android:id="@+id/listViewsongs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button1"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" >
-
-    </ListView>
+        android:text="add songs" 
+        android:onClick="addsongs"/>
 
 </RelativeLayout>

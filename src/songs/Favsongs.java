@@ -1,5 +1,6 @@
 package songs;
 import java.util.Vector;
+
 import com.example.pccontrol1.*;
 
 import android.os.AsyncTask;
@@ -8,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -15,13 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.mdg.pccontrol1.R;
 
-public class Favsongs extends Activity implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
+public class Favsongs extends DashBoardActivity implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 
 	ListView list;
 	String[] titles;
 	String[] descriptions;
 	int[] images;
-	static int choice=0;
+	static int choicesong=0;
 	
 	//TextView header;
 	static String headpath="nopath";
@@ -31,7 +33,7 @@ public class Favsongs extends Activity implements AdapterView.OnItemClickListene
 	
 	static Vector vectorFavSongs = new Vector();
 
-	public Favsongs() {
+	public void Favsongs() {
 		// TODO Auto-generated constructor stub
 		computerFavsongs MA=new computerFavsongs();
 		vectorFavSongs=MA.getFavVector();
@@ -42,15 +44,20 @@ public class Favsongs extends Activity implements AdapterView.OnItemClickListene
     static	String fi;
 	@SuppressLint("NewApi")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.favsongs);
        
 		setFinishOnTouchOutside(false);
+setHeader(getString(R.string.app_name), true, true);
+		
+		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
+	
 		
 		addsongs=(Button) findViewById(R.id.buttonaddsong);
 		
 		try {
+			Favsongs(); 
 			send();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -69,7 +76,7 @@ public class Favsongs extends Activity implements AdapterView.OnItemClickListene
 		return vectorFavSongs;
 	}
 	
-	public void FavBack(View v) {
+	public void SongsFavBack(View v) {
 
         Intent intent=new Intent();  
         intent.putExtra("MESSAGE","cancel");  
@@ -97,9 +104,7 @@ public class Favsongs extends Activity implements AdapterView.OnItemClickListene
 
 
 	public void send() throws Exception {
-		computerFavsongs MA=new computerFavsongs();
-		vectorFavSongs=MA.getFavVector();
-	    	new LongOperation().execute();
+			new LongOperation().execute();
 	    	
 	    }
 	 
@@ -166,19 +171,22 @@ public class Favsongs extends Activity implements AdapterView.OnItemClickListene
 	
 	 
 	 
+	@SuppressLint("NewApi")
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View view, int i, long l) {
 		
+      choicesong=1;
 		
 		fi=String.valueOf(vectorFavSongs.elementAt(i));
 		
-		
-         Intent intent=new Intent();  
-         intent.putExtra("MESSAGE",fi);  
-           
-         setResult(2,intent);  
-           
-         finish();//finishing activity  
+		Toast.makeText(this, " "+fi, Toast.LENGTH_LONG).show();
+		Intent intent=new Intent(this,computerFavsongs.class);
+		Bundle info =new Bundle();
+		info.putString("open", fi);
+		intent.putExtras(info);
+		startActivity(intent);
+	    
+        finish();//finishing activity  
 		
 	}
 	

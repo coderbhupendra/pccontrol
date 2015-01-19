@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -61,12 +60,12 @@ public class computerFavsongs extends Activity implements AdapterView.OnItemClic
 
 	static int size=6;
 	VivzAdapter adapter;
-    static	String fi;
+    static	String fi="null";
     
 public static CommentsDataSource datasourcesongs;
-public static MySQLiteHelper help;
+public static MySQLiteHelper helpsong;
 	int Scheck=0;
-	
+	int checksong=0;
 	/** An array of strings to populate dropdown list */
     String[] actions = new String[] {
         "Settings",
@@ -81,35 +80,44 @@ public static MySQLiteHelper help;
 		
 		setContentView(R.layout.computerfavsongs);
 		
+		
 		//this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
 		
 			//database
 		 IPEntry ipe=new IPEntry();
-	       IPADDRESS=ipe.ip;
+	     IPADDRESS=ipe.ip;
 	       
 		datasourcesongs = new CommentsDataSource(this);
 	    datasourcesongs.open();
 		
-	    help=new MySQLiteHelper(getApplicationContext());
+	    helpsong=new MySQLiteHelper(getApplicationContext());
 	    
 		
-		int counter =spa.counter;
-		if(counter==2)
+		int counter =spa.countersong;
+		if(counter==1)
 		{
 	    
-	  List<String> listfiles=help.getAllToDos();
-     //  vectorFavSongs=(Vector) listfiles;
+	  List<String> listfiles=helpsong.getAllToDos();
+    //  vectorFavSongs=(Vector) listfiles;
        for(int i=0;i<listfiles.size();i++)
        {
     	  vectorFavSongs.add(i, listfiles.get(i)); 
        }
-       //counter=1;
-       spa.counter++;
+     //  counter=2;
+      spa.countersong++;
 		}
         /////////////
 		
 try {
-	send();
+	checksong=Favsongs.choicesong;
+	if(checksong==1)
+	{
+		Bundle gotpathsong = getIntent().getExtras();
+	    fi = gotpathsong.getString("open");
+	    Favsongs.choicesong=0;
+	    send1();
+    }
+	else send();
 	display();
 } catch (Exception e) {
 	// TODO Auto-generated catch block
@@ -133,12 +141,26 @@ try {
 	public void onBackPressed(){
 	   try {
 		sendback();
+		   
+		   
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
 	}
 	
+	public void SongsFavBack() {
+
+		Intent intent = new Intent(this,Favsongs.class);
+		startActivity(intent);
+        //Intent intent=new Intent();  
+        //intent.putExtra("MESSAGE","cancel");  
+          
+        //setResult(2,intent);  
+          
+        finish();//finishing activity  
+
+	}
 	
 	
 	public void filter(){
@@ -154,57 +176,15 @@ try {
 		public void Refresh(View v) throws Exception {
 		choice=0;
 		send();
-	}
-	
+	}	
+
+		
 public void backer(View v) throws Exception {
 
 	sendback();
 }
 
-public void openDrive() throws Exception {
-	send();
-}
 
-@SuppressLint("NewApi")
-public void history(View v) throws Exception {
-    Favsongs fv=new Favsongs();
-    if(spa.counter==0)
-	vectorFavSongs=fv.getvectorFavSongs();
-	
-	Intent intent=new Intent(computerFavsongs.this,Favsongs.class);  
-    startActivityForResult(intent, 2);// Activity is started with requestCode 2 
-
-	//sendback();
-}
-
-
-
-@Override  
-protected void onActivityResult(int requestCode, int resultCode, Intent data)  
-{  
-          super.onActivityResult(requestCode, resultCode, data);  
-              
-           // check if the request code is same as what is passed  here it is 2  
-            if(requestCode==2)  
-                  {  
-                     String message=data.getStringExtra("MESSAGE");   
-                    // textView1.setText(message);  
-                     
-                     if(message=="cancel"){}
-                     else 
-                    	 {
-                    	 fi=message;
-                     try {
-						send1();
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-          
-                  }  
-                  }
-
-}  
 
 	private void display() {
 		// TODO Auto-generated method stub
@@ -251,13 +231,15 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	}
 	
 	public void delFavVector(String del) {
-		help.deleteToDo(del);
+		helpsong.deleteToDo(del);
 		 Log.d("test del",del+1+" ");
 		 
 	}
 	
 	public void send() throws Exception {
-	    	new LongOperation().execute();
+		
+		
+	    new LongOperation().execute();
 	    	
 	    }
 	 public void send1() throws Exception {
@@ -270,7 +252,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		 if(vectorBackSongs.size()>0)
 	    	{
 			 Toast.makeText(this,vectorBackSongs.size()+"fi"+vectorBackSongs.lastElement(),Toast.LENGTH_SHORT).show();
-			 new LongOperationback().execute();}
+			 new LongOperationback().execute();
+			 }
+		 else SongsFavBack();
 	    	
 	    }
 	 
@@ -573,7 +557,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	        	streamToServer = new PrintStream(toServer.getOutputStream());
 
                     
-	        	streamToServer.println("back");
+	        	streamToServer.println("backmusic");
 	        	int getsize=vectorBackSongs.size();int s=0;
 	        	if(getsize==1)s=1;
 	        	else s=2;
@@ -617,7 +601,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	      		}
 	        	
 	    		 vectorBackSongs.removeElementAt(vectorBackSongs.size()-1);
-		        	
+	    		 
+	    		  if(vectorBackSongs.size()==0&&checksong==0){send();}
+	    		 
 	    		 if(streamFromServer!=null)streamFromServer.close();
 		        	if(streamToServer!=null)streamToServer.close();
 	                if(toServer!=null)toServer.close();
@@ -691,6 +677,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		Log.d("test size",vectorFavSongs.size()+" ");
 		Comment comment = datasourcesongs.createComment(Fav);
 		
+	
 		return false;
 	}
  
@@ -753,6 +740,12 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
      	       else  images[i]=R.drawable.folder2;
      	     }
 
+        	 if(size==0)
+        	 {	titles[0]="SORRY";
+        	    descriptions[0]="No songs in this folder";
+        	    images[0]=R.drawable.file;
+        	 }
+        	 
 
      		//recode the path for back functionality
      		vectorBackSongs.addElement(fi);

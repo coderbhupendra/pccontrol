@@ -713,7 +713,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	                int pos1 = headpath.lastIndexOf("\\");
 	                head =headpath.substring(0 , pos1);
 	    		 
-	    		 for(int i=0;i<size;i++){
+	        		 for(int i=0;i<size;i++){
 	      			titles[i]=String.valueOf(i+1);
 	      			
 	      			//seperating the  last name from filenam
@@ -868,7 +868,11 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
      	      images[i]=R.drawable.file;
      	       else  images[i]=R.drawable.folder2;
      	     }
-
+        	 if(size==0)
+        	 {	titles[0]=String.valueOf(0);
+        	    descriptions[0]="No Data";
+        	    images[0]=R.drawable.file;
+        	 }
 
      		//recode the path for back functionality
      		vectorBack.addElement(fi);

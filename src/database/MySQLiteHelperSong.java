@@ -11,14 +11,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class MySQLiteHelper extends SQLiteOpenHelper {
+public class MySQLiteHelperSong extends SQLiteOpenHelper {
 
   public static final String TABLE_COMMENTS = "comments";
   public static final String COLUMN_ID = "_id";
   public static final String COLUMN_COMMENT = "comment";
 
-  private static final String DATABASE_NAME = "commments.db";
-  private static final int DATABASE_VERSION = 21;
+  private static final String DATABASE_NAME = "commmentsong.db";
+  private static final int DATABASE_VERSION = 4;
 
   // Database creation sql statement
   private static final String DATABASE_CREATE = "create table "
@@ -27,7 +27,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
       + " text not null);";
 
   
-  public MySQLiteHelper(Context context) {
+  public MySQLiteHelperSong(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
   }
 

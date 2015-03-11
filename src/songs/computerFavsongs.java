@@ -5,6 +5,7 @@ import com.example.pccontrol1.*;
 import database.Comment;
 import database.MySQLiteHelper;
 import database.CommentsDataSource;
+import database.MySQLiteHelperSong;
 
 import java.io.File;
 import java.io.ObjectInputStream;
@@ -63,7 +64,7 @@ public class computerFavsongs extends Activity implements AdapterView.OnItemClic
     static	String fi="null";
     
 public static CommentsDataSource datasourcesongs;
-public static MySQLiteHelper helpsong;
+public static MySQLiteHelperSong helpsong;
 	int Scheck=0;
 	int checksong=0;
 	/** An array of strings to populate dropdown list */
@@ -90,39 +91,18 @@ public static MySQLiteHelper helpsong;
 		datasourcesongs = new CommentsDataSource(this);
 	    datasourcesongs.open();
 		
-	    helpsong=new MySQLiteHelper(getApplicationContext());
+	    helpsong=new MySQLiteHelperSong(getApplicationContext());
 	    
 		
-		int counter =spa.countersong;
-		if(counter==1)
-		{
-	    
-	  List<String> listfiles=helpsong.getAllToDos();
-    //  vectorFavSongs=(Vector) listfiles;
-       for(int i=0;i<listfiles.size();i++)
-       {
-    	  vectorFavSongs.add(i, listfiles.get(i)); 
-       }
-     //  counter=2;
-      spa.countersong++;
-		}
-        /////////////
-		
-try {
-	checksong=Favsongs.choicesong;
-	if(checksong==1)
-	{
-		Bundle gotpathsong = getIntent().getExtras();
-	    fi = gotpathsong.getString("open");
-	    Favsongs.choicesong=0;
-	    send1();
-    }
-	else send();
+			
+    try {
+		send();
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	display();
-} catch (Exception e) {
-	// TODO Auto-generated catch block
-	e.printStackTrace();
-}
+
 		 }
 	
 	@Override
@@ -660,16 +640,21 @@ public void backer(View v) throws Exception {
 		if(Scheck==1){
 			TextView textView=(TextView) view.findViewById(R.id.textView1);
 			String tt=textView.getText().toString();
-			
-			
+		
 			int num=Integer.parseInt(tt);num--;
-			Fav=String.valueOf(vectorsong.elementAt(num));
+			Fav=String.valueOf("@"+vectorsong.elementAt(num));
 			
 			
 			Scheck=0;}
 		else 
-		Fav=String.valueOf(vectorsong.elementAt(i));
-		vectorFavSongs.add(Fav);
+		{Fav=String.valueOf("@"+vectorsong.elementAt(i));}
+		 computer passvec=new computer();
+		 vectorFavSongs=passvec.getFavVector();
+		
+		 vectorFavSongs.add(Fav);
+		//.////////////////
+		passvec.setFavVector(vectorFavSongs);
+		
 		
 		String path = String.valueOf(Fav);
         int pos = path.lastIndexOf("\\");

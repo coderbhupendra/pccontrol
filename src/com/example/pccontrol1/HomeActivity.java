@@ -8,6 +8,7 @@ package com.example.pccontrol1;
 import songs.Favsongs;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.mdg.pccontrol1.R;
@@ -27,8 +28,18 @@ public class HomeActivity extends DashBoardActivity {
         setHeader(getString(R.string.HomeActivityTitle), false, true);
     	SplashScreenActivity.counter++;
     	SplashScreenActivity.countersong++;
+    	
     }
     
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                // your code here
+        	Intent intent = new Intent(this, IPEntry.class);
+			startActivity(intent);
+                return false;
+        }
+    return super.onKeyDown(keyCode, event);
+}
     /**
      * Button click handler on Main activity
      * @param v
@@ -56,7 +67,7 @@ public class HomeActivity extends DashBoardActivity {
 			startActivity(intent);
 			break;
 		case R.id.favfile:
-			intent = new Intent(this, impsongs.class);
+			intent = new Intent(this, impfilesOuter.class);
 			startActivity(intent);
 			break;
 		case R.id.mouse:

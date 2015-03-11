@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.text.format.Formatter;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
@@ -30,6 +31,13 @@ public class IPEntry extends Activity {
 
    public static  SharedPreferences sharedpreferences;
 
+   @Override
+   public void onBackPressed(){
+     Intent intent = new Intent(Intent.ACTION_MAIN);
+     intent.addCategory(Intent.CATEGORY_HOME);
+     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+     startActivity(intent);
+   }
    @Override
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
@@ -62,6 +70,8 @@ public class IPEntry extends Activity {
 
    }
 
+   
+   
    public void run(View view){
       String n  = name.getText().toString();
       String i  = ipaddress.getText().toString();
@@ -96,5 +106,6 @@ public class IPEntry extends Activity {
       getMenuInflater().inflate(R.menu.main, menu);
       return true;
    }
+   
 
 }

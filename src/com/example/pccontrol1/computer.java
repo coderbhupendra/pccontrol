@@ -38,16 +38,13 @@ public class computer extends DashBoardActivity implements AdapterView.OnItemCli
 	String[] titles;
 	String[] descriptions;
 	int[] images;
-	static int choice=0,fileornotflag=0;
+	static int choice=0,fileornotflag=0,iperror=0;
 	
 	TextView header;
 	EditText searchword;
 	//Button searchbutton;
 	static String headpath="nopath";
-	static String head="PLEASE START THE HOTSPOT FIRST .\n" +
-	"ENTER CORRECT IP ADSRESS. \n "+
-			
-			"FOR THAT READ THE INSTRUCTIONS IN IP SETTINGS";
+	static String head="sorry";
 	static String search=" ";
 	
 	SplashScreenActivity spa= new SplashScreenActivity();
@@ -63,6 +60,7 @@ public class computer extends DashBoardActivity implements AdapterView.OnItemCli
 	static Vector<String> vector,searchvector;
 	static Vector vectorBack = new Vector();
 	static Vector vectorFav = new Vector();
+	
 
 	static int size=6;
 	VivzAdapter adapter;
@@ -105,15 +103,15 @@ public static MySQLiteHelper help;
         	      header.setTypeface(custom_font);
         	      searchword.setTypeface(custom_font,Typeface.BOLD_ITALIC);
 		
-        	      if(impsongs.choice==4){ 
-        	    	  fi=impsongs.fi;
+        	      if(impfilesOuter.choice==4){ 
+        	    	  fi=impfilesOuter.fi;
         	    	  //check if the path is file or not
         	    	// new LongOperationfileornot().execute();
         	    	 //copied in its postexecute
         	    	// if(fileornotflag==1){new LongOperationplay().execute();}
         	    	 //else 
         	    	  new LongOperation1().execute();
-        	    	 impsongs.choice=0 ;
+        	    	 impfilesOuter.choice=0 ;
         	      }
         	      else
         	      {
@@ -145,6 +143,7 @@ public static MySQLiteHelper help;
        for(int i=0;i<listfiles.size();i++)
        {
     	  vectorFav.add(i, listfiles.get(i)); 
+    	 
        }
        //counter=1;
        spa.counter++;
@@ -234,38 +233,7 @@ public void reset() {
 		}
 		}
 	
-	
-	/*
-	@Override
-	   public boolean onKeyDown(int keyCode, KeyEvent event) {
-	if (keyCode == KeyEvent.KEYCODE_BACK) {
-	    onBackPressed();
-		
-	}
 
-	return super.onKeyDown(keyCode, event);
-	}*/
-	
-//button defenetion
-	//public void search(View v) throws Exception {
-	//	search=searchword.getText().toString();
-		//filter();
-	//}
-/*	public void CDrive(View v) throws Exception {
-		choice=1;
-		//help.deleteToDo(1);
-		send();
-	}
-public void EDrive(View v) throws Exception {
-	choice=2;
-	send();
-	
-	}
-public void GDrive(View v) throws Exception {
-	choice=3;
-	send();
-}
-*/
 	public void Refresh(View v) throws Exception {
 		choice=0;
 		send();
@@ -432,9 +400,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 
 	        	}//end of try
 	        	catch(Exception e)
-	        	{
+	        	{datasource.close();
 	        		reset();
-	        	System.out.println("Exception9" + e ) ;
+	        	System.out.println("Exception91" + e ) ;
 	        	}
 	        	
 		return "";
@@ -477,7 +445,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	        	}//end of try
 	        	catch(Exception e)
 	        	{
-	        		reset();System.out.println("Exception9" + e ) ;
+	        		datasource.close();reset();System.out.println("Exception92" + e ) ;
 	        	}
 	        	
 		return "";
@@ -565,8 +533,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 
 		        	}//end of try
 		        	catch(Exception e)
-		        	{reset();
-		        	System.out.println("Exception9" + e ) ;
+		        	{datasource.close();
+		        		reset();
+		        	System.out.println("Exception93" + e ) ;
 		        	}
 		        	
 			return "";
@@ -662,11 +631,14 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	            if(streamFromServer!=null)streamFromServer.close();
 	        	if(streamToServer!=null)streamToServer.close();
                 if(toServer!=null)toServer.close();
-	        	}//end of try
+                }//end of try
 	        	catch(Exception e)
-	        	{reset();
-	        	System.out.println("Exception9" + e ) ;
-	        	}
+	        	{
+	        	datasource.close();
+	        
+	        	System.out.println("Exception94" + e ) ;
+	        	iperror=1;
+	            }
 	        	
 		return "";
 	       }	
@@ -678,13 +650,24 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	    }
 	        
 	        protected void onPostExecute(String result) {
+	        	System.out.println("Except size" + size +" ip "+ iperror ) ;
+	        if(iperror==0)
+	        	{
 	        	display();
 	        	//putting the header in the  textview
+	        	header.setText(head);}
+	        else
+	        {iperror=0;
+	        System.out.println("Except 44441" ) ;
+	        	// Intent	intent = new Intent(computer.this, IPEntry.class);
+	        	 finish();
+			    //startActivity(intent);
+			    
 	        	
-	        	header.setText(head);
-			 
-				super.onPostExecute(result);
+	        }display();
+			 	super.onPostExecute(result);
 			  }
+	        
 	        
 	}//end of long process
 
@@ -756,8 +739,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 
 	        	}//end of try
 	        	catch(Exception e)
-	        	{reset();
-	        	System.out.println("Exception9" + e ) ;
+	        	{datasource.close();
+	        	reset();
+	        	System.out.println("Exception95" + e ) ;
 	        	}
 	        	
 		return "";
@@ -902,8 +886,10 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 
         	}//end of try
         	catch(Exception e)
-        	{reset();
-        	System.out.println("Exception9" + e ) ;
+        	{datasource.close();
+        		reset();
+        	System.out.println("Exception910" + e ) ;
+        	datasource.close();
         	}
         	
 	return "";

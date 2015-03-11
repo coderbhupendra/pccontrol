@@ -26,8 +26,10 @@ public class CommentsDataSource {
     database = dbHelper.getWritableDatabase();
   }
 
+  
   public void close() {
     dbHelper.close();
+   
   }
 
   public Comment createComment(String comment) {

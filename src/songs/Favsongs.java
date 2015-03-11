@@ -33,11 +33,6 @@ public class Favsongs extends DashBoardActivity implements AdapterView.OnItemCli
 	
 	static Vector vectorFavSongs = new Vector();
 
-	public void Favsongs() {
-		// TODO Auto-generated constructor stub
-		computerFavsongs MA=new computerFavsongs();
-		vectorFavSongs=MA.getFavVector();
-	}
 	
 	static int size=6;
 	VivzAdapter adapter;
@@ -59,15 +54,13 @@ public class Favsongs extends DashBoardActivity implements AdapterView.OnItemCli
 		}
 		
 	
-setHeader(getString(R.string.app_name), true, true);
-		
+        setHeader(getString(R.string.app_name), true, true);
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
 	
 		
 		addsongs=(Button) findViewById(R.id.buttonaddsong);
 		
 		try {
-			Favsongs(); 
 			send();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -77,6 +70,8 @@ setHeader(getString(R.string.app_name), true, true);
 	
 	
 	public void addsongs(View v) {
+		 Toast.makeText(getApplicationContext(), "size "+vectorFavSongs.size(), Toast.LENGTH_LONG).show();
+			
 		Intent intent = new Intent(Favsongs.this, computerFavsongs.class);
 		startActivity(intent);
 		finish();
@@ -114,6 +109,8 @@ setHeader(getString(R.string.app_name), true, true);
 
 
 	public void send() throws Exception {
+		computer MA=new computer();
+		vectorFavSongs=MA.getFavVector();
 			new LongOperation().execute();
 	    	
 	    }
@@ -146,14 +143,17 @@ setHeader(getString(R.string.app_name), true, true);
 	                head =headpath.substring(0 , pos1);
 	    		 
 	    		 for(int i=0;i<size;i++){
-	      			titles[i]=String.valueOf(i+1);
+	      			
 	      			
 	      			//seperating the  last name from filenam
 	      			String path = String.valueOf(vectorFavSongs.elementAt(i));
+	      			if(path.charAt(0)=='@')
+	      			{titles[i]=String.valueOf(i+1);
 	                 int pos = path.lastIndexOf("\\");
 	                 String name =path.substring(pos+1 , path.length());
 	      	        descriptions[i]=name;
 	      			images[i]=R.drawable.impfile;
+	      			}
 	      		}
 	        
 
@@ -171,7 +171,8 @@ setHeader(getString(R.string.app_name), true, true);
 	        	//putting the header in the  textview
 	        	
 	        	//header.setText(head);
-			 
+	        	 Toast.makeText(getApplicationContext(), "size "+size, Toast.LENGTH_LONG).show();
+	     		
 				super.onPostExecute(result);
 			  }
 	        
@@ -206,7 +207,10 @@ setHeader(getString(R.string.app_name), true, true);
 		//Toast.makeText(this, "longclick", Toast.LENGTH_LONG).show();
 	  String Fav=String.valueOf(vectorFavSongs.elementAt(i));
 		vectorFavSongs.remove(i);
-		 
+		///////////////////////////////////////
+		 computer passvec=new computer();
+		 passvec.delFavVector(Fav);
+		 passvec.setFavVector(vectorFavSongs);
 		
 		//CommentsDataSource datasource=MainActivity.datasource;
 	   
@@ -227,10 +231,6 @@ setHeader(getString(R.string.app_name), true, true);
 		//datasource.deleteComment(num-1);
 		//del.deleteToDo(num);
 		
-		//pass this vecmtor to mainactivity
-		computerFavsongs MA=new computerFavsongs();
-		MA.delFavVector(Fav);
-		MA.setFavVector(vectorFavSongs);
 		try {
 			send();
 		} catch (Exception e) {

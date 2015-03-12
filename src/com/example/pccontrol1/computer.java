@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Vector;
 
+import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -60,7 +61,7 @@ public class computer extends DashBoardActivity implements AdapterView.OnItemCli
 	static Vector<String> vector,searchvector;
 	static Vector vectorBack = new Vector();
 	static Vector vectorFav = new Vector();
-	
+	static Vector vectorFavSong = new Vector();
 
 	static int size=6;
 	VivzAdapter adapter;
@@ -139,17 +140,20 @@ public static MySQLiteHelper help;
 		{
 	    
 	  List<String> listfiles=help.getAllToDos();
+	  Toast.makeText(this, "tt  "+listfiles.size(), Toast.LENGTH_SHORT).show();
      //  vectorFav=(Vector) listfiles;
        for(int i=0;i<listfiles.size();i++)
        {
-    	  vectorFav.add(i, listfiles.get(i)); 
-    	 
+    	     String implist=listfiles.get(i);
+    	     if(implist.contains("@")) 
+    		 vectorFavSong.add(listfiles.get(i));
+    	     else  vectorFav.add(listfiles.get(i));
+    	   
        }
-       //counter=1;
        spa.counter++;
 		}
         /////////////
-		
+		Toast.makeText(this, vectorFav.size()+" "+vectorFavSong.size(), Toast.LENGTH_SHORT).show();
 		searchword.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -337,6 +341,22 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	}
 	
 	public void delFavVector(String del) {
+		help.deleteToDo(del);
+		 Log.d("test del",del+1+" ");
+		 
+	}
+	
+	//funtion for favsongvector
+	public Vector<String> getFavSongVector() {
+		return vectorFavSong;
+		
+	}
+
+	public void setFavSongVector(Vector<String> vec) {
+		vectorFavSong=vec;
+	}
+	
+	public void delFavSongVector(String del) {
 		help.deleteToDo(del);
 		 Log.d("test del",del+1+" ");
 		 

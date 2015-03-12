@@ -649,11 +649,11 @@ public void backer(View v) throws Exception {
 		else 
 		{Fav=String.valueOf("@"+vectorsong.elementAt(i));}
 		 computer passvec=new computer();
-		 vectorFavSongs=passvec.getFavVector();
+		 vectorFavSongs=passvec.getFavSongVector();
 		
 		 vectorFavSongs.add(Fav);
 		//.////////////////
-		passvec.setFavVector(vectorFavSongs);
+		passvec.setFavSongVector(vectorFavSongs);
 		
 		
 		String path = String.valueOf(Fav);

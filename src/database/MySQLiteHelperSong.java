@@ -18,7 +18,7 @@ public class MySQLiteHelperSong extends SQLiteOpenHelper {
   public static final String COLUMN_COMMENT = "comment";
 
   private static final String DATABASE_NAME = "commmentsong.db";
-  private static final int DATABASE_VERSION = 4;
+  private static final int DATABASE_VERSION = 13;
 
   // Database creation sql statement
   private static final String DATABASE_CREATE = "create table "

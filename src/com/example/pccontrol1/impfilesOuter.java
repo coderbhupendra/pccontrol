@@ -53,9 +53,30 @@ public class impfilesOuter extends DashBoardActivity implements AdapterView.OnIt
 		setContentView(R.layout.impsongs);
 		setHeader(getString(R.string.files), true, true);
 		
-		 help=new MySQLiteHelper(getApplicationContext());
+		computer cfs=new computer();
+		  MySQLiteHelper help=new MySQLiteHelper(getApplicationContext());
+		List<String> listfiles=help.getAllToDos();
+		Toast.makeText(this, "tt  "+listfiles.size(), Toast.LENGTH_SHORT).show();
 		
+		Vector vectorFavSongs = new Vector();
+		SplashScreenActivity spa =new SplashScreenActivity();
+		if(spa.counter==2)
+		{
+			for(int i=0;i<listfiles.size();i++)
 		
+	       {
+	    	     String implist=listfiles.get(i);
+	    	     if(implist.contains("@")) 
+	    		 vectorFavSongs.add(listfiles.get(i));
+	    	     else 
+	    	       vectorFav.add(listfiles.get(i));
+	    			
+	       }
+		
+		cfs.setFavVector(vectorFav);
+		cfs.setFavSongVector(vectorFavSongs);
+		}
+		 
 		
 		try {
 			send();
@@ -90,24 +111,10 @@ public class impfilesOuter extends DashBoardActivity implements AdapterView.OnIt
 
 
 	public void send() throws Exception {
-		if(spa.counter==2)
-		{
-	    
-	  List<String> listfiles=help.getAllToDos();
-     //  vectorFav=(Vector) listfiles;
-       for(int i=0;i<listfiles.size();i++)
-       {
-    	  vectorFav.add(i, listfiles.get(i)); 
-       }
-       //counter=1;
-       spa.counter++;
-		}
 		
-		else {
 		computer MA=new computer();
 		vectorFav=MA.getFavVector();
-		}
-	    	new LongOperation().execute();
+			new LongOperation().execute();
 	    	
 	    }
 	 

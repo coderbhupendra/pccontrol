@@ -1,4 +1,5 @@
 package com.example.pccontrol1;
+import java.util.List;
 import java.util.Vector;
 
 
@@ -34,11 +35,6 @@ public class FavList extends Activity implements AdapterView.OnItemClickListener
 	
 	static Vector vectorFav = new Vector();
 
-	public FavList() {
-		// TODO Auto-generated constructor stub
-		computer MA=new computer();
-		vectorFav=MA.getFavVector();
-	}
 	
 	static int size=6;
 	VivzAdapter adapter;
@@ -58,6 +54,30 @@ public class FavList extends Activity implements AdapterView.OnItemClickListener
 		else
 		{
 	     setFinishOnTouchOutside(false);
+		}
+		
+		computer cfs=new computer();
+		  MySQLiteHelper help=new MySQLiteHelper(getApplicationContext());
+		List<String> listfiles=help.getAllToDos();
+		Toast.makeText(this, "tt  "+listfiles.size(), Toast.LENGTH_SHORT).show();
+		
+		Vector vectorFavSongs = new Vector();
+		SplashScreenActivity spa =new SplashScreenActivity();
+		if(spa.counter==2)
+		{
+			for(int i=0;i<listfiles.size();i++)
+		
+	       {
+	    	     String implist=listfiles.get(i);
+	    	     if(implist.contains("@")) 
+	    		 vectorFavSongs.add(listfiles.get(i));
+	    	     else 
+	    	       vectorFav.add(listfiles.get(i));
+	    			
+	       }
+		
+		cfs.setFavVector(vectorFav);
+		cfs.setFavSongVector(vectorFavSongs);
 		}
 		
 		try {

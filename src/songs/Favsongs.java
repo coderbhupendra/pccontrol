@@ -1,4 +1,5 @@
 package songs;
+import java.util.List;
 import java.util.Vector;
 
 import com.example.pccontrol1.*;
@@ -16,6 +17,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.mdg.pccontrol1.R;
+
+import database.MySQLiteHelper;
+import database.MySQLiteHelperSong;
 
 public class Favsongs extends DashBoardActivity implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 
@@ -59,6 +63,30 @@ public class Favsongs extends DashBoardActivity implements AdapterView.OnItemCli
 	
 		
 		addsongs=(Button) findViewById(R.id.buttonaddsong);
+		
+		 computer cfs=new computer();
+		  MySQLiteHelper help=new MySQLiteHelper(getApplicationContext());
+		List<String> listfiles=help.getAllToDos();
+		Toast.makeText(this, "tt  "+listfiles.size(), Toast.LENGTH_SHORT).show();
+		
+		Vector vectorfilelist = new Vector();
+		SplashScreenActivity spa =new SplashScreenActivity();
+		if(spa.counter==2)
+		{
+			for(int i=0;i<listfiles.size();i++)
+		
+	       {
+	    	     String implist=listfiles.get(i);
+	    	     if(implist.contains("@")) 
+	    		 {vectorFavSongs.add(listfiles.get(i));}
+	    	     else 
+	    	     vectorfilelist.add(listfiles.get(i));
+	    	   
+	       }
+		
+		cfs.setFavVector(vectorfilelist);
+		cfs.setFavSongVector(vectorFavSongs);
+		}
 		
 		try {
 			send();
@@ -106,11 +134,13 @@ public class Favsongs extends DashBoardActivity implements AdapterView.OnItemCli
 			//list.setOnItemSelectedListener(this);
 	}
 
+	
+    
 
 
 	public void send() throws Exception {
-		computer MA=new computer();
-		vectorFavSongs=MA.getFavVector();
+		computer cmp=new computer();
+		vectorFavSongs=cmp.getFavSongVector();
 			new LongOperation().execute();
 	    	
 	    }
@@ -209,8 +239,8 @@ public class Favsongs extends DashBoardActivity implements AdapterView.OnItemCli
 		vectorFavSongs.remove(i);
 		///////////////////////////////////////
 		 computer passvec=new computer();
-		 passvec.delFavVector(Fav);
-		 passvec.setFavVector(vectorFavSongs);
+		 passvec.delFavSongVector(Fav);
+		 passvec.setFavSongVector(vectorFavSongs);
 		
 		//CommentsDataSource datasource=MainActivity.datasource;
 	   

@@ -28,47 +28,47 @@
             android:onClick="onButtonClicker"
             android:text="@string/computer"
             android:drawableTop="@drawable/comp1"/>
+        <Button android:id="@+id/favfile"
+            style="@style/HomeButton"
+            android:onClick="onButtonClicker"
+            android:text="@string/files"
+            android:drawableTop="@drawable/favfile2"/>    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <Button android:id="@+id/impfiles"
+            style="@style/HomeButton"
+            android:onClick="onButtonClicker"
+            android:text="@string/music"
+            android:drawableTop="@drawable/music1"/>
+        
+        <Button android:id="@+id/mouse"
+            style="@style/HomeButton"
+            android:onClick="onButtonClicker"
+            android:text="@string/mouse"
+            android:drawableTop="@drawable/mouse"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
         <Button android:id="@+id/settings"
             style="@style/HomeButton"
             android:onClick="onButtonClicker"
             android:text="@string/settings"
             android:drawableTop="@drawable/settings1"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-        <Button android:id="@+id/help"
-            style="@style/HomeButton"
-            android:onClick="onButtonClicker"
-            android:text="@string/help"
-            android:drawableTop="@drawable/help11"/>
-        <Button android:id="@+id/favfile"
-            style="@style/HomeButton"
-            android:onClick="onButtonClicker"
-            android:text="@string/favfile"
-            android:drawableTop="@drawable/favfile2"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-        <Button android:id="@+id/music"
-            style="@style/HomeButton"
-            android:onClick="onButtonClicker"
-            android:text="@string/music"
-            android:drawableTop="@drawable/music1"/>
 
         <Button
-            android:id="@+id/mouse"
+            android:id="@+id/help"
             style="@style/HomeButton"
-            android:drawableTop="@drawable/mouse"
+            android:drawableTop="@drawable/help11"
             android:onClick="onButtonClicker"
-            android:text="@string/mouse" />
+            android:text="@string/help" />
 
     </LinearLayout>
     <LinearLayout
@@ -78,7 +78,7 @@
         android:layout_weight="1">
 
         <Button
-            android:id="@+id/impfiles"
+            android:id="@+id/music"
             style="@style/HomeButton"
             android:drawableTop="@drawable/email"
             android:onClick="onButtonClicker"

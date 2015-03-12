@@ -84,7 +84,7 @@ public static MySQLiteHelper help;
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_main);
-	setHeader(getString(R.string.app_name), true, true);
+	setHeader(getString(R.string.computer), true, true);
 		
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
 		

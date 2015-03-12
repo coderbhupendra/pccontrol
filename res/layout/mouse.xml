@@ -8,64 +8,45 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".mouse" >
-<ViewStub android:id="@+id/vsHeader" 
-	    android:inflatedId="@+id/header" 
-		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content" 
-		android:layout="@layout/header" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="92dp"
-        android:layout_alignLeft="@+id/linearLayout1"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="139dp"
-            android:layout_height="85dp"
-            android:layout_weight="1"
-            android:onClick="first"
-            android:text="LEFT CLICK" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="129dp"
-            android:layout_height="86dp"
-            android:layout_weight="1"
-            android:onClick="third"
-            android:text="RIGHT CLICK" />
-    </LinearLayout>
+    <ViewStub
+        android:id="@+id/vsHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inflatedId="@+id/header"
+        android:layout="@layout/header" />
 
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_above="@+id/linearLayout2"
+        android:layout_alignBottom="@+id/vsHeader"
+        android:layout_marginTop="55dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="20dp"
-        android:orientation="vertical" >
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" >
 
         <Button
-            android:id="@+id/button4"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_above="@+id/button5"
-            android:layout_alignLeft="@+id/button5"
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_margin="10dp"
             android:layout_weight="1"
-            android:background="@drawable/up"
-            android:onClick="wheelup" />
+           android:onClick="first"
+        android:text="LEFT CLICK" />
 
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/down"
-            android:onClick="wheeldown" />
-    </LinearLayout>
-
+    <Button
+        android:id="@+id/button1"
+        android:padding="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/linearLayout1"
+         android:onClick="third"
+         android:text="RIGHT CLICK" 
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+         />
+</LinearLayout>
 </RelativeLayout>

@@ -495,7 +495,7 @@ public void backer(View v) throws Exception {
 	    	      			//seperating the  last name from filenam
 	    	      			String path = String.valueOf(vectorsong.elementAt(i));
 	    	                descriptions[i]=path;
-	    	      			images[i]=R.drawable.drive2;
+	    	      			images[i]=R.drawable.song1;
 	    	      		}
 	                }
 	                

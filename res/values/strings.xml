@@ -9,11 +9,12 @@
     <!-- Activity Titles -->
     <string name="HomeActivityTitle">PC Control</string>
     <string name="FeedbackActivityTitle">Feedback</string>
-    <string name="files">IMP FILES</string>
+    <string name="files">FAV FILES</string>
     <string name="settings">SETTINGS</string>
     <string name="help">HELP</string>
     <string name="computer">COMPUTER</string>
-    <string name="favfile">FAV FILES</string>
+    <string name="songs">FAVOURITE SONGS</string>
+    <string name="favfile">FAVOURITE FILES</string>
     <string name="music">MUSIC</string>
     <string name="email">EMAIL</string>
     <string name="mouse">MOUSE</string>

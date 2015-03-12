@@ -51,7 +51,7 @@ public class impfilesOuter extends DashBoardActivity implements AdapterView.OnIt
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.impsongs);
-		setHeader(getString(R.string.files), true, true);
+		setHeader(getString(R.string.favfile), true, true);
 		
 		computer cfs=new computer();
 		  MySQLiteHelper help=new MySQLiteHelper(getApplicationContext());

@@ -58,7 +58,7 @@ public class Favsongs extends DashBoardActivity implements AdapterView.OnItemCli
 		}
 		
 	
-        setHeader(getString(R.string.app_name), true, true);
+        setHeader(getString(R.string.songs), true, true);
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
 	
 		
@@ -182,7 +182,7 @@ public class Favsongs extends DashBoardActivity implements AdapterView.OnItemCli
 	                 int pos = path.lastIndexOf("\\");
 	                 String name =path.substring(pos+1 , path.length());
 	      	        descriptions[i]=name;
-	      			images[i]=R.drawable.impfile;
+	      			images[i]=R.drawable.song;
 	      			}
 	      		}
 	        

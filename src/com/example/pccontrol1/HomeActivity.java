@@ -6,14 +6,17 @@ package com.example.pccontrol1;
  */
 
 import songs.Favsongs;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.mdg.pccontrol1.R;
 
-public class HomeActivity extends DashBoardActivity {
+public class HomeActivity extends Activity {
 	
 	//int counter  database check
 //	SplashScreenActivity spa=new SplashScreenActivity();
@@ -25,12 +28,31 @@ public class HomeActivity extends DashBoardActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        setHeader(getString(R.string.HomeActivityTitle), false, true);
-    	SplashScreenActivity.counter++;
+        SplashScreenActivity.counter++;
     	SplashScreenActivity.countersong++;
     	
     }
-    
+    public boolean onCreateOptionsMenu(Menu menu) {
+  		// Inflate the menu; this adds items to the action bar if it is present.
+  		getMenuInflater().inflate(R.menu.activity_main_actions, menu);
+  		return true;
+  	}
+    @Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Take appropriate action for each action item click
+		switch (item.getItemId()) {
+		
+		
+		case R.id.action_help:
+			// help action
+			return true;
+		case R.id.action_settings:
+			// check for updates action
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	} 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
                 // your code here

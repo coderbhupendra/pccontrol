@@ -10,10 +10,14 @@ import com.mdg.pccontrol1.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public abstract class DashBoardActivity extends Activity {
     /** Called when the activity is first created. */
@@ -61,4 +65,6 @@ public abstract class DashBoardActivity extends Activity {
     	Intent intent = new Intent(getApplicationContext(), FeedbackActivity.class);
     	startActivity(intent);
     }
-}
+    
+    }
+    

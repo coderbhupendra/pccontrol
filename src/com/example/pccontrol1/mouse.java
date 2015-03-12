@@ -1,5 +1,7 @@
 package com.example.pccontrol1;
 
+
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.PrintStream;
@@ -9,9 +11,9 @@ import java.net.UnknownHostException;
 import java.util.Vector;
 import java.util.concurrent.RejectedExecutionException;
 
-import com.mdg.pccontrol1.R;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.AsyncTask;
@@ -24,13 +26,17 @@ import android.view.Display;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.mdg.pccontrol1.R;
 
 
-public class mouse extends DashBoardActivity implements 
-        OnDoubleTapListener, OnGestureListener{
+@SuppressLint("NewApi")
+public class mouse extends Activity implements        OnDoubleTapListener, OnGestureListener{
+	
+
 	public AsyncTask<String, String, String> mTask;
 	
 	static ObjectInputStream streamFromServer;
@@ -53,7 +59,7 @@ String IPADDRESS;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mouse);
-        setHeader(getString(R.string.mouse), true, true);
+       // setHeader(getString(R.string.mouse), true, true);
        // Toast.makeText(getBaseContext(), "yes", Toast.LENGTH_LONG).show();
         if (android.os.Build.VERSION.SDK_INT > 9) {
  		   StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -64,6 +70,13 @@ String IPADDRESS;
         IPADDRESS=ip.ip;
         
 
+      
+     // get action bar   
+   //     ActionBar actionBar = getActionBar();
+ 
+        // Enabling Up / Back navigation
+  //      actionBar.setDisplayHomeAsUpEnabled(true);
+        
 		int currentapiVersion = android.os.Build.VERSION.SDK_INT;
 		if (currentapiVersion <= android.os.Build.VERSION_CODES.HONEYCOMB_MR2)
 		{
@@ -89,9 +102,9 @@ String IPADDRESS;
         mDetector.setOnDoubleTapListener(this);
         Log.d(DEBUG_TAG,"onDown: " + "bh"); 
         
+        
         new LongOperationpoints().execute();
     }
-
     @Override 
     public boolean onTouchEvent(MotionEvent event){ 
         this.mDetector.onTouchEvent(event);
@@ -310,8 +323,28 @@ String IPADDRESS;
   
    public boolean onCreateOptionsMenu(Menu menu) {
   		// Inflate the menu; this adds items to the action bar if it is present.
-  		getMenuInflater().inflate(R.menu.main, menu);
+  		getMenuInflater().inflate(R.menu.activity_main_actions, menu);
   		return true;
-  	}	
+  	}
+
+   @Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Take appropriate action for each action item click
+		switch (item.getItemId()) {
+		
+		
+		case R.id.action_help:
+			// help action
+			return true;
+		case R.id.action_settings:
+			// check for updates action
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+
+	
 
 }

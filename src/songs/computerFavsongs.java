@@ -96,7 +96,16 @@ public static MySQLiteHelperSong helpsong;
 		
 			
     try {
-		send();
+    	send();
+    	fi= getIntent().getExtras().getString("opensong");
+    //	if(fi=="drives")send();
+    	
+    	//else{ 
+    	if(fi.charAt(0)=='@')fi=fi.substring(1);send1();
+    	//}
+		
+         	
+		
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -518,6 +527,8 @@ public void backer(View v) throws Exception {
 	    }
 	        
 	        protected void onPostExecute(String result) {
+	        	Toast.makeText(getApplicationContext(),"dd44ddddd", Toast.LENGTH_SHORT).show();
+				
 	        	display();
 	        	//putting the header in the  textview
 	        super.onPostExecute(result);
@@ -621,6 +632,7 @@ public void backer(View v) throws Exception {
 		
 		
 		try {
+			Toast.makeText(this,"ddddddd" +fi, Toast.LENGTH_SHORT).show();
 			send1();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

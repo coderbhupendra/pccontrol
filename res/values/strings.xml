@@ -18,4 +18,11 @@
     <string name="music">MUSIC</string>
     <string name="email">EMAIL</string>
     <string name="mouse">MOUSE</string>
+    
+     <!-- Action Bar action items -->
+    
+    <string name="action_help">Help</string>
+     <string name="action_settings">Settings</string>
+    
+    
 </resources>

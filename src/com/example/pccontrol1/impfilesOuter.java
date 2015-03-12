@@ -9,7 +9,10 @@ import java.util.Vector;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -19,7 +22,7 @@ import com.mdg.pccontrol1.R;
 
 import database.MySQLiteHelper;
 
-public class impfilesOuter extends DashBoardActivity implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
+public class impfilesOuter extends Activity implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 
 	ListView list;
 	String[] titles;
@@ -46,12 +49,32 @@ public class impfilesOuter extends DashBoardActivity implements AdapterView.OnIt
 	static int size=6;
 	VivzAdapter adapter;
     static	String fi;
+    public boolean onCreateOptionsMenu(Menu menu) {
+  		// Inflate the menu; this adds items to the action bar if it is present.
+  		getMenuInflater().inflate(R.menu.activity_main_actions, menu);
+  		return true;
+  	}
+    @Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Take appropriate action for each action item click
+		switch (item.getItemId()) {
+		
+		
+		case R.id.action_help:
+			// help action
+			return true;
+		case R.id.action_settings:
+			// check for updates action
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	} 
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.impsongs);
-		setHeader(getString(R.string.favfile), true, true);
 		
 		computer cfs=new computer();
 		  MySQLiteHelper help=new MySQLiteHelper(getApplicationContext());
@@ -72,7 +95,7 @@ public class impfilesOuter extends DashBoardActivity implements AdapterView.OnIt
 	    	       vectorFav.add(listfiles.get(i));
 	    			
 	       }
-		
+		spa.counter++;
 		cfs.setFavVector(vectorFav);
 		cfs.setFavSongVector(vectorFavSongs);
 		}

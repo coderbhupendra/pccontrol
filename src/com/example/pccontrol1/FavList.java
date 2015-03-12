@@ -75,7 +75,7 @@ public class FavList extends Activity implements AdapterView.OnItemClickListener
 	    	       vectorFav.add(listfiles.get(i));
 	    			
 	       }
-		
+			spa.counter++;
 		cfs.setFavVector(vectorFav);
 		cfs.setFavSongVector(vectorFavSongs);
 		}

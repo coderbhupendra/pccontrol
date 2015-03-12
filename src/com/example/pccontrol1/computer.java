@@ -16,6 +16,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +25,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -33,7 +37,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
-public class computer extends DashBoardActivity implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener ,AdapterView.OnItemSelectedListener 
+public class computer extends Activity implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener ,AdapterView.OnItemSelectedListener 
 ,OnEditorActionListener {
 	ListView list;
 	String[] titles;
@@ -78,14 +82,33 @@ public static MySQLiteHelper help;
         "Instructions"
     };
 	
+    public boolean onCreateOptionsMenu(Menu menu) {
+  		// Inflate the menu; this adds items to the action bar if it is present.
+  		getMenuInflater().inflate(R.menu.activity_main_actions, menu);
+  		return true;
+  	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Take appropriate action for each action item click
+		switch (item.getItemId()) {
+		
+		
+		case R.id.action_help:
+			// help action
+			return true;
+		case R.id.action_settings:
+			// check for updates action
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	} 	
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_main);
-	setHeader(getString(R.string.computer), true, true);
-		
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
 		
 		

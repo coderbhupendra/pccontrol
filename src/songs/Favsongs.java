@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -21,7 +23,7 @@ import com.mdg.pccontrol1.R;
 import database.MySQLiteHelper;
 import database.MySQLiteHelperSong;
 
-public class Favsongs extends DashBoardActivity implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
+public class Favsongs extends Activity implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 
 	ListView list;
 	String[] titles;
@@ -41,7 +43,30 @@ public class Favsongs extends DashBoardActivity implements AdapterView.OnItemCli
 	static int size=6;
 	VivzAdapter adapter;
     static	String fi;
+    
+    public boolean onCreateOptionsMenu(Menu menu) {
+  		// Inflate the menu; this adds items to the action bar if it is present.
+  		getMenuInflater().inflate(R.menu.activity_main_actions, menu);
+  		return true;
+  	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Take appropriate action for each action item click
+		switch (item.getItemId()) {
+		
+		
+		case R.id.action_help:
+			// help action
+			return true;
+		case R.id.action_settings:
+			// check for updates action
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	} 	
 	@SuppressLint("NewApi")
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,8 +83,7 @@ public class Favsongs extends DashBoardActivity implements AdapterView.OnItemCli
 		}
 		
 	
-        setHeader(getString(R.string.songs), true, true);
-		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
+       this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
 	
 		
 		addsongs=(Button) findViewById(R.id.buttonaddsong);
@@ -83,7 +107,7 @@ public class Favsongs extends DashBoardActivity implements AdapterView.OnItemCli
 	    	     vectorfilelist.add(listfiles.get(i));
 	    	   
 	       }
-		
+			spa.counter++;
 		cfs.setFavVector(vectorfilelist);
 		cfs.setFavSongVector(vectorFavSongs);
 		}
@@ -100,8 +124,11 @@ public class Favsongs extends DashBoardActivity implements AdapterView.OnItemCli
 	public void addsongs(View v) {
 		 Toast.makeText(getApplicationContext(), "size "+vectorFavSongs.size(), Toast.LENGTH_LONG).show();
 			
-		Intent intent = new Intent(Favsongs.this, computerFavsongs.class);
-		startActivity(intent);
+		 Intent intent=new Intent(this,computerFavsongs.class);
+			//Bundle info =new Bundle();
+			//info.putString("opensong", "drives");
+			//intent.putExtras(info);
+			startActivity(intent);
 		finish();
 	}
 	
@@ -223,7 +250,7 @@ public class Favsongs extends DashBoardActivity implements AdapterView.OnItemCli
 		Toast.makeText(this, " "+fi, Toast.LENGTH_LONG).show();
 		Intent intent=new Intent(this,computerFavsongs.class);
 		Bundle info =new Bundle();
-		info.putString("open", fi);
+		info.putString("opensong", fi);
 		intent.putExtras(info);
 		startActivity(intent);
 	    

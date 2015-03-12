@@ -3,20 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ViewStub
-        android:id="@+id/vsHeader"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inflatedId="@+id/header"
-        android:layout="@layout/header"
-        />
-
+   
     <ListView
         android:id="@+id/listViewsongs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="55dp"
         android:layout_marginBottom="50dp">
 
     </ListView>

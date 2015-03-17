@@ -14,6 +14,7 @@ import java.util.concurrent.RejectedExecutionException;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.AsyncTask;
@@ -104,6 +105,7 @@ String IPADDRESS;
         
         
         new LongOperationpoints().execute();
+        getActionBar().setHomeButtonEnabled(true);
     }
     @Override 
     public boolean onTouchEvent(MotionEvent event){ 
@@ -310,11 +312,13 @@ String IPADDRESS;
 	   sendpostions();
 	
   }
+   //left
    public void wheelup(View v) {
 	   choice=4;
 	   sendpostions();
 	
   }
+   //right
    public void wheeldown(View v) {
 	   choice=5;
 	   sendpostions();
@@ -327,22 +331,33 @@ String IPADDRESS;
   		return true;
   	}
 
+
    @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent;
 		// Take appropriate action for each action item click
 		switch (item.getItemId()) {
-		
+		case android.R.id.home:
+		      // ProjectsActivity is my 'home' activity
+			 intent = new Intent(getApplicationContext(), HomeActivity.class);
+			  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			  startActivity(intent);	   
+			  return true;
 		
 		case R.id.action_help:
 			// help action
+			intent=new Intent(getApplicationContext(), instructions.class);
+			startActivity(intent);
 			return true;
 		case R.id.action_settings:
 			// check for updates action
+			intent=new Intent(getApplicationContext(), IPEntry.class);
+			startActivity(intent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	}
+	} 	
 
 
 	

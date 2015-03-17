@@ -18,7 +18,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
   public static final String COLUMN_COMMENT = "comment";
 
   private static final String DATABASE_NAME = "commments.db";
-  private static final int DATABASE_VERSION = 33;
+  private static final int DATABASE_VERSION = 34;
 
   // Database creation sql statement
   private static final String DATABASE_CREATE = "create table "

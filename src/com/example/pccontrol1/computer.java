@@ -87,17 +87,27 @@ public static MySQLiteHelper help;
   		getMenuInflater().inflate(R.menu.activity_main_actions, menu);
   		return true;
   	}
-	@Override
+    @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent;
 		// Take appropriate action for each action item click
 		switch (item.getItemId()) {
-		
+		case android.R.id.home:
+		      // ProjectsActivity is my 'home' activity
+			 intent = new Intent(getApplicationContext(), HomeActivity.class);
+			  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			  startActivity(intent);	   
+			  return true;
 		
 		case R.id.action_help:
 			// help action
+			intent=new Intent(getApplicationContext(), instructions.class);
+			startActivity(intent);
 			return true;
 		case R.id.action_settings:
 			// check for updates action
+			intent=new Intent(getApplicationContext(), IPEntry.class);
+			startActivity(intent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -163,7 +173,7 @@ public static MySQLiteHelper help;
 		{
 	    
 	  List<String> listfiles=help.getAllToDos();
-	  Toast.makeText(this, "tt  "+listfiles.size(), Toast.LENGTH_SHORT).show();
+	//  Toast.makeText(this, "tt  "+listfiles.size(), Toast.LENGTH_SHORT).show();
      //  vectorFav=(Vector) listfiles;
        for(int i=0;i<listfiles.size();i++)
        {
@@ -176,7 +186,7 @@ public static MySQLiteHelper help;
        spa.counter++;
 		}
         /////////////
-		Toast.makeText(this, vectorFav.size()+" "+vectorFavSong.size(), Toast.LENGTH_SHORT).show();
+		//Toast.makeText(this, vectorFav.size()+" "+vectorFavSong.size(), Toast.LENGTH_SHORT).show();
 		searchword.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -203,13 +213,18 @@ public static MySQLiteHelper help;
 			}
 		});
 		
+		//getActionBar().setDisplayShowHomeEnabled(true);
+		 getActionBar().setHomeButtonEnabled(true);
+		// getActionBar().setDisplayHomeAsUpEnabled(true);
+			
 		 }
+	
 	
 	//code to restart activity on exception to connect again to server . 
 @SuppressLint("NewApi")
 public void reset() {
 	if (Build.VERSION.SDK_INT >= 11) {
-	    recreate();
+	 //   recreate();
 	} else {
 	    Intent intent = getIntent();
 	    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -398,7 +413,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		 //check if there is any element present in backvector
 		 if(vectorBack.size()>0)
 	    	{
-			 Toast.makeText(this,vectorBack.size()+"fi"+vectorBack.lastElement(),Toast.LENGTH_SHORT).show();
+			// Toast.makeText(this,vectorBack.size()+"fi"+vectorBack.lastElement(),Toast.LENGTH_SHORT).show();
 			 new LongOperationback().execute();}
 		 else 
 		 { Intent intent = new Intent(this,HomeActivity.class);
@@ -557,7 +572,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		    	                if(name.contains(search))
 		    	               {titles[j]=String.valueOf(i+1);
 		    	               descriptions[j]=name;
-		    	               images[j]=R.drawable.folder2;
+		    	               images[j]=R.drawable.folders;
 		    	               
 		    	               //  searchvector.add(String.valueOf(vector.elementAt(i)));
 		    	             //  searchvector.
@@ -654,7 +669,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	    	      	        
 	    	      	        //check if file or folder
 	    	      	      File file = new File(vector.elementAt(i));
-	    	      	      if(file.isFile()){images[i]=R.drawable.folder2;}
+	    	      	      if(file.isFile()){images[i]=R.drawable.folders;}
 	    	      	      //else images[i]=R.drawable.right;
 	    	      		}
 	                }
@@ -667,7 +682,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	    	      			//seperating the  last name from filenam
 	    	      			String path = String.valueOf(vector.elementAt(i));
 	    	                descriptions[i]=path;
-	    	      			images[i]=R.drawable.drive2;
+	    	      			images[i]=R.drawable.drives;
 	    	      		}
 	                }
 	                
@@ -767,8 +782,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	      	        descriptions[i]=name;
 	      	      File file = new File(vector.elementAt(i));
 	     	       if(ids.elementAt(i)==1)
-	     	      images[i]=R.drawable.file;
-	     	       else  images[i]=R.drawable.folder2;
+	     	      images[i]=R.drawable.files;
+	     	       else  images[i]=R.drawable.folders;
 	      	      
 	      		}
 	        	
@@ -911,13 +926,13 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data)
      	        descriptions[i]=name;
      	       File file = new File(vector.elementAt(i));
      	       if(ids.elementAt(i)==1)
-     	      images[i]=R.drawable.file;
-     	       else  images[i]=R.drawable.folder2;
+     	      images[i]=R.drawable.files;
+     	       else  images[i]=R.drawable.folders;
      	     }
         	 if(size==0)
         	 {	titles[0]=String.valueOf(0);
         	    descriptions[0]="No Data";
-        	    images[0]=R.drawable.file;
+        	    images[0]=R.drawable.files;
         	 }
 
      		//recode the path for back functionality

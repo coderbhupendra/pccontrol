@@ -123,6 +123,8 @@ public static MySQLiteHelperSong helpsong;
 	  @Override
 	  protected void onPause() {
 	    datasourcesongs.close();
+
+	    vectorBackSongs.clear();
 	    super.onPause();
 	  }
 	
@@ -138,13 +140,13 @@ public static MySQLiteHelperSong helpsong;
 	}
 	}
 	
-	public void SongsFavBack() {
+	  public void SongsFavBack() {
 
 		 //uncomment this line to open favsong list on last  back of list 19/1/2015
 		
 		
 		//Intent intent = new Intent(this,Favsongs.class);
-		Intent intent = new Intent(this,HomeActivity.class);
+		Intent intent = new Intent(this,Favsongs.class);
 		startActivity(intent);
         finish();//finishing activity  
 
@@ -241,9 +243,9 @@ public void backer(View v) throws Exception {
 
 		 
 		 //check if there is any element present in backvector
-		 if(vectorBackSongs.size()>0)
+		 if(vectorBackSongs.size()>1)
 	    	{
-			 Toast.makeText(this,vectorBackSongs.size()+"fi"+vectorBackSongs.lastElement(),Toast.LENGTH_SHORT).show();
+			// Toast.makeText(this,vectorBackSongs.size()+"fi"+vectorBackSongs.lastElement(),Toast.LENGTH_SHORT).show();
 			 new LongOperationback().execute();
 			 }
 		 else SongsFavBack();
@@ -397,7 +399,7 @@ public void backer(View v) throws Exception {
 		    	                if(name.contains(search))
 		    	               {titles[j]=String.valueOf(i+1);
 		    	               descriptions[j]=name;
-		    	               images[j]=R.drawable.folder2;
+		    	               images[j]=R.drawable.folders;
 		    	               
 		    	               //  searchvector.add(String.valueOf(vector.elementAt(i)));
 		    	             //  searchvector.
@@ -491,7 +493,7 @@ public void backer(View v) throws Exception {
 	    	      	        
 	    	      	        //check if file or folder
 	    	      	      File file = new File(vectorsong.elementAt(i));
-	    	      	      if(file.isFile()){images[i]=R.drawable.folder2;}
+	    	      	      if(file.isFile()){images[i]=R.drawable.folders;}
 	    	      	      //else images[i]=R.drawable.right;
 	    	      		}
 	                }
@@ -527,7 +529,7 @@ public void backer(View v) throws Exception {
 	    }
 	        
 	        protected void onPostExecute(String result) {
-	        	Toast.makeText(getApplicationContext(),"dd44ddddd", Toast.LENGTH_SHORT).show();
+	        //	Toast.makeText(getApplicationContext(),"dd44ddddd", Toast.LENGTH_SHORT).show();
 				
 	        	display();
 	        	//putting the header in the  textview
@@ -589,8 +591,8 @@ public void backer(View v) throws Exception {
 	      	        descriptions[i]=name;
 	      	      File file = new File(vectorsong.elementAt(i));
 	     	       if(ids.elementAt(i)==1)
-	     	      images[i]=R.drawable.file;
-	     	       else  images[i]=R.drawable.folder2;
+	     	      images[i]=R.drawable.files;
+	     	       else  images[i]=R.drawable.folders;
 	      	      
 	      		}
 	        	
@@ -632,8 +634,8 @@ public void backer(View v) throws Exception {
 		
 		
 		try {
-			Toast.makeText(this,"ddddddd" +fi, Toast.LENGTH_SHORT).show();
-			send1();
+			//Toast.makeText(this,"ddddddd" +fi, Toast.LENGTH_SHORT).show();
+				send1();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -672,7 +674,7 @@ public void backer(View v) throws Exception {
         int pos = path.lastIndexOf("\\");
         String name =path.substring(pos+1 , path.length());
 	       
-		Toast.makeText(this,name+" added to your Favorite List", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this,name+" added to your Favorite Song List", Toast.LENGTH_SHORT).show();
 	//	Comment comment = datasource.createComment(Fav,vectorFavSongs.size()+1);
 		Log.d("test size",vectorFavSongs.size()+" ");
 		Comment comment = datasourcesongs.createComment(Fav);
@@ -740,8 +742,8 @@ public void backer(View v) throws Exception {
      	        descriptions[i]=name;
      	       File file = new File(vectorsong.elementAt(i));
      	       if(ids.elementAt(i)==1)
-     	       images[i]=R.drawable.file;
-     	       else  images[i]=R.drawable.folder2;
+     	       images[i]=R.drawable.files;
+     	       else  images[i]=R.drawable.folders;
      	                               
             	   }
             	   
@@ -753,7 +755,7 @@ public void backer(View v) throws Exception {
         		 
             	   	titles[0]="SORRY";
               	    descriptions[0]="No songs in this folder";
-              	    images[0]=R.drawable.file;
+              	    images[0]=R.drawable.files;
               	  list.setEnabled(false);
               	  list.setClickable(false);
                     
@@ -776,7 +778,7 @@ public void backer(View v) throws Exception {
         
         protected void onPostExecute(String result) {
        	 display();
-        	//Toast.makeText(getApplicationContext(),"123"+"size"+vectorsong.size(),Toast.LENGTH_SHORT).show();
+        	//Toast.makeText(getApplicationContext(),"123"+"size"+vectorBackSongs.size(),Toast.LENGTH_SHORT).show();
 			super.onPostExecute(result);
 		  }
         

@@ -3,16 +3,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="#00ffffff" >
+    android:background="#FFFFFF" >
 
     <!-- Included header.xml here -->
-	<ViewStub android:id="@+id/vsHeader" 
-	    android:inflatedId="@+id/header" 
-		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content" 
-		android:layout="@layout/header" />
+	
 
 	<LinearLayout
+	 android:gravity="center"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -57,6 +54,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
+        <!-- 
         <Button android:id="@+id/settings"
             style="@style/HomeButton"
             android:onClick="onButtonClicker"
@@ -68,7 +66,8 @@
             style="@style/HomeButton"
             android:drawableTop="@drawable/help11"
             android:onClick="onButtonClicker"
-            android:text="@string/help" />
+            android:text="@string/help" /> -->
+        
 
     </LinearLayout>
     <LinearLayout
@@ -77,12 +76,12 @@
         android:layout_height="wrap_content"
         android:layout_weight="1">
 
-        <Button
+      <!-- <Button
             android:id="@+id/music"
             style="@style/HomeButton"
             android:drawableTop="@drawable/email"
             android:onClick="onButtonClicker"
-            android:text="@string/email" />
+            android:text="@string/email" /> -->  
 
     </LinearLayout>
 

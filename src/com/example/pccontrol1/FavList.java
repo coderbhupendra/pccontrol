@@ -59,7 +59,7 @@ public class FavList extends Activity implements AdapterView.OnItemClickListener
 		computer cfs=new computer();
 		  MySQLiteHelper help=new MySQLiteHelper(getApplicationContext());
 		List<String> listfiles=help.getAllToDos();
-		Toast.makeText(this, "tt  "+listfiles.size(), Toast.LENGTH_SHORT).show();
+	//	Toast.makeText(this, "tt  "+listfiles.size(), Toast.LENGTH_SHORT).show();
 		
 		Vector vectorFavSongs = new Vector();
 		SplashScreenActivity spa =new SplashScreenActivity();
@@ -97,7 +97,7 @@ public class FavList extends Activity implements AdapterView.OnItemClickListener
 		// TODO Auto-generated method stub
 		Intent intent=new Intent(this,computer.class);  
 	     startActivity(intent);
-	     Toast.makeText(getApplicationContext(), "ok", Toast.LENGTH_LONG).show();
+	   //  Toast.makeText(getApplicationContext(), "ok", Toast.LENGTH_LONG).show();
 		 finish();//finishing activity  
 		super.onBackPressed();
 	}
@@ -193,7 +193,7 @@ public class FavList extends Activity implements AdapterView.OnItemClickListener
 	        	//putting the header in the  textview
 	        	
 	        	//header.setText(head);
-	        	Toast.makeText(getApplicationContext(), "size "+vectorFav.size(), Toast.LENGTH_LONG).show();
+	        	//Toast.makeText(getApplicationContext(), "size "+vectorFav.size(), Toast.LENGTH_LONG).show();
 	      	  	super.onPostExecute(result);
 			  }
 	        

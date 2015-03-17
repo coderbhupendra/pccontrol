@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -51,15 +52,25 @@ public class Favsongs extends Activity implements AdapterView.OnItemClickListene
   	}
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent;
 		// Take appropriate action for each action item click
 		switch (item.getItemId()) {
-		
+		case android.R.id.home:
+		      // ProjectsActivity is my 'home' activity
+			 intent = new Intent(getApplicationContext(), HomeActivity.class);
+			  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			  startActivity(intent);	   
+			  return true;
 		
 		case R.id.action_help:
 			// help action
+			intent=new Intent(getApplicationContext(), instructions.class);
+			startActivity(intent);
 			return true;
 		case R.id.action_settings:
 			// check for updates action
+			intent=new Intent(getApplicationContext(), IPEntry.class);
+			startActivity(intent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -91,7 +102,7 @@ public class Favsongs extends Activity implements AdapterView.OnItemClickListene
 		 computer cfs=new computer();
 		  MySQLiteHelper help=new MySQLiteHelper(getApplicationContext());
 		List<String> listfiles=help.getAllToDos();
-		Toast.makeText(this, "tt  "+listfiles.size(), Toast.LENGTH_SHORT).show();
+	//	Toast.makeText(this, "tt  "+listfiles.size(), Toast.LENGTH_SHORT).show();
 		
 		Vector vectorfilelist = new Vector();
 		SplashScreenActivity spa =new SplashScreenActivity();
@@ -118,11 +129,12 @@ public class Favsongs extends Activity implements AdapterView.OnItemClickListene
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		getActionBar().setHomeButtonEnabled(true);
 		 }
 	
 	
 	public void addsongs(View v) {
-		 Toast.makeText(getApplicationContext(), "size "+vectorFavSongs.size(), Toast.LENGTH_LONG).show();
+		// Toast.makeText(getApplicationContext(), "size "+vectorFavSongs.size(), Toast.LENGTH_LONG).show();
 			
 		 Intent intent=new Intent(this,computerFavsongs.class);
 			//Bundle info =new Bundle();
@@ -228,7 +240,7 @@ public class Favsongs extends Activity implements AdapterView.OnItemClickListene
 	        	//putting the header in the  textview
 	        	
 	        	//header.setText(head);
-	        	 Toast.makeText(getApplicationContext(), "size "+size, Toast.LENGTH_LONG).show();
+	        	// Toast.makeText(getApplicationContext(), "size "+size, Toast.LENGTH_LONG).show();
 	     		
 				super.onPostExecute(result);
 			  }
@@ -247,7 +259,7 @@ public class Favsongs extends Activity implements AdapterView.OnItemClickListene
 		
 		fi=String.valueOf(vectorFavSongs.elementAt(i));
 		
-		Toast.makeText(this, " "+fi, Toast.LENGTH_LONG).show();
+	//	Toast.makeText(this, " "+fi, Toast.LENGTH_LONG).show();
 		Intent intent=new Intent(this,computerFavsongs.class);
 		Bundle info =new Bundle();
 		info.putString("opensong", fi);
@@ -282,7 +294,7 @@ public class Favsongs extends Activity implements AdapterView.OnItemClickListene
         int pos = path.lastIndexOf("\\");
         String name =path.substring(pos+1 , path.length());
 	        
-		Toast.makeText(getApplicationContext(),name+ " Removed From List", Toast.LENGTH_LONG).show();
+	Toast.makeText(getApplicationContext(),name+ " Removed From List", Toast.LENGTH_LONG).show();
 		int num=Integer.parseInt(tt);num--;
 		
 		//datasource.deleteComment(num-1);

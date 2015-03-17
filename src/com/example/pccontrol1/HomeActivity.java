@@ -6,6 +6,7 @@ package com.example.pccontrol1;
  */
 
 import songs.Favsongs;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,12 +25,15 @@ public class HomeActivity extends Activity {
 	//file or not
 	
     /** Called when the activity is first created. */
-    @Override
+    @SuppressLint("NewApi")
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         SplashScreenActivity.counter++;
     	SplashScreenActivity.countersong++;
+    	//getActionBar().setHomeButtonEnabled(true);
+    	
     	
     }
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -37,22 +41,34 @@ public class HomeActivity extends Activity {
   		getMenuInflater().inflate(R.menu.activity_main_actions, menu);
   		return true;
   	}
+
     @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent;
 		// Take appropriate action for each action item click
 		switch (item.getItemId()) {
-		
+		case android.R.id.home:
+		      // ProjectsActivity is my 'home' activity
+			 intent = new Intent(getApplicationContext(), HomeActivity.class);
+			  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			  startActivity(intent);	   
+			  return true;
 		
 		case R.id.action_help:
 			// help action
+			intent=new Intent(getApplicationContext(), instructions.class);
+			startActivity(intent);
 			return true;
 		case R.id.action_settings:
 			// check for updates action
+			intent=new Intent(getApplicationContext(), IPEntry.class);
+			startActivity(intent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	} 
+	} 	
+    
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
                 // your code here
@@ -76,7 +92,7 @@ public class HomeActivity extends Activity {
 			startActivity(intent);
 			break;
 
-		case R.id.settings:
+		/*case R.id.settings:
 			intent = new Intent(this, IPEntry.class);
 			startActivity(intent);
 			break;
@@ -84,10 +100,13 @@ public class HomeActivity extends Activity {
 			intent = new Intent(this, instructions.class);
 			startActivity(intent);
 			break;
-		case R.id.music:
+			case R.id.music:
 			intent = new Intent(this, music.class);
 			startActivity(intent);
 			break;
+			*/
+			
+		
 		case R.id.favfile:
 			intent = new Intent(this, impfilesOuter.class);
 			startActivity(intent);

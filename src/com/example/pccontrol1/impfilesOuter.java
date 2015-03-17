@@ -56,20 +56,30 @@ public class impfilesOuter extends Activity implements AdapterView.OnItemClickLi
   	}
     @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent;
 		// Take appropriate action for each action item click
 		switch (item.getItemId()) {
-		
+		case android.R.id.home:
+		      // ProjectsActivity is my 'home' activity
+			 intent = new Intent(getApplicationContext(), HomeActivity.class);
+			  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			  startActivity(intent);	   
+			  return true;
 		
 		case R.id.action_help:
 			// help action
+			intent=new Intent(getApplicationContext(), instructions.class);
+			startActivity(intent);
 			return true;
 		case R.id.action_settings:
 			// check for updates action
+			intent=new Intent(getApplicationContext(), IPEntry.class);
+			startActivity(intent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	} 
+	} 	
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +89,7 @@ public class impfilesOuter extends Activity implements AdapterView.OnItemClickLi
 		computer cfs=new computer();
 		  MySQLiteHelper help=new MySQLiteHelper(getApplicationContext());
 		List<String> listfiles=help.getAllToDos();
-		Toast.makeText(this, "tt  "+listfiles.size(), Toast.LENGTH_SHORT).show();
+	//	Toast.makeText(this, "tt  "+listfiles.size(), Toast.LENGTH_SHORT).show();
 		
 		Vector vectorFavSongs = new Vector();
 		SplashScreenActivity spa =new SplashScreenActivity();
@@ -107,6 +117,7 @@ public class impfilesOuter extends Activity implements AdapterView.OnItemClickLi
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		getActionBar().setHomeButtonEnabled(true);
 		 }
 	    
 	
@@ -252,7 +263,7 @@ public class impfilesOuter extends Activity implements AdapterView.OnItemClickLi
 	    		 Intent intent = new Intent(impfilesOuter.this, computer.class);
 	    			startActivity(intent);
 	    	 }
-	        	Toast.makeText(getApplicationContext(), check.elementAt(0) +"dd", Toast.LENGTH_LONG).show();
+	        //	Toast.makeText(getApplicationContext(), check.elementAt(0) +"dd", Toast.LENGTH_LONG).show();
 				super.onPostExecute(result);
 			  }
 	        

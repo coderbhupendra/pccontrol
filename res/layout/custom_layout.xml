@@ -13,20 +13,20 @@
         android:id="@+id/listView2"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true" >
 
     </ListView>
-    
 
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/listView2"
         android:layout_centerHorizontal="true"
-         android:onClick="FavBack" 
-        android:background="@drawable/ok" />
+        android:paddingTop="10dp"
+        android:background="@drawable/ok"
+        android:onClick="FavBack"
+        android:paddingBottom="10dp" />
 
 </RelativeLayout>

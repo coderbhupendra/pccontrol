@@ -18,9 +18,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:text="add songs" 
-        android:onClick="addsongs"/>
+        android:layout_centerHorizontal="true"
+        android:onClick="addsongs"
+        android:text="ADD SONGS"
+        android:padding="15dp"/>
 
 </RelativeLayout>
